@@ -1,19 +1,16 @@
 var mongoose = require('../util/mongodbUtil'),
-    logger = require('../common/logger'),
-    Community = mongoose.model('Community');
+    Community = mongoose.model('Community'),
+    DaoUtil = require('../util/DaoUtil');
 
 var findCommunitiesByDistance = function(centerCoordinates,maxDistanceMeters,callback){
-    Community.find({loc:{$near: {$geometry: {type: "Point" ,coordinates: centerCoordinates},$maxDistance: maxDistanceMeters}}},
-        function(err,docs){
-           if(err){
-              logger.error(err);
-           }
-           else{
-              callback(docs);
-           }
-    });
+    DaoUtil.find(Community,{loc:{$near: {$geometry: {type: "Point" ,coordinates: centerCoordinates},$maxDistance: maxDistanceMeters}}},callback);
+};
+
+var findCommunitiesBySystemRecommend = function(callback){
+    DaoUtil.find(Community,{systemRecommendedWeight : {$gt : 0}},callback, {systemRecommendedWeight : -1});
 };
 
 module.exports = {
-    findCommunitiesByDistance : findCommunitiesByDistance
+    findCommunitiesByDistance : findCommunitiesByDistance,
+    findCommunitiesBySystemRecommend : findCommunitiesBySystemRecommend
 };

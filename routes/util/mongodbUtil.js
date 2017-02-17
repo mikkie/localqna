@@ -32,7 +32,8 @@ var CommunitySchema = new Schema({
     createDate : { type: Date, default: Date.now },
     topics : [ObjectId],
     loc : mongoose.Schema.Types.Point,
-    invalid : Boolean
+    invalid : Boolean,
+    systemRecommendedWeight : { type: Number, default : 0}
 });
 
 
@@ -68,7 +69,12 @@ var CommentSchema = new Schema({
 
 //5.GlobalSettings
 var GlobalSettingsSchema = new Schema({
-    topicClosePeriod : { type: Number }
+    topic : {
+        topicClosePeriod : { type: Number }
+    },
+    lbs : {
+        maxDistances : {type: Number, default : 5000}
+    }
 });
 
 CommunitySchema.index({loc: '2dsphere'});
