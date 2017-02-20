@@ -13,6 +13,20 @@ router.post('/loadIndexPageCommunities', function(req, res, next) {
     }
 });
 
+router.post('/findCommunitiesByName',function (req,res,next) {
+    var name = req.body.name;
+    if(name){
+        communityService.findCommunitiesByName(name,function (docs) {
+            res.json({"success" : docs});
+        });
+    }
+    else{
+        res.json({"error" : "name is empty"});
+    }
+});
+
+
+
 var loadIndexPageCommunities = function(loc,res){
     communityService.findTheNearByAndRecommendCommunities(loc,function(docs){
         res.json({"success" : docs});

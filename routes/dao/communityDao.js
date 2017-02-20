@@ -10,7 +10,12 @@ var findCommunitiesBySystemRecommend = function(callback){
     DaoUtil.find(Community,{systemRecommendedWeight : {$gt : 0}},callback, {systemRecommendedWeight : -1});
 };
 
+var findCommunitiesByName = function (name,callback) {
+    DaoUtil.find(Community,{name : new RegExp(name)},callback);
+};
+
 module.exports = {
     findCommunitiesByDistance : findCommunitiesByDistance,
-    findCommunitiesBySystemRecommend : findCommunitiesBySystemRecommend
+    findCommunitiesBySystemRecommend : findCommunitiesBySystemRecommend,
+    findCommunitiesByName : findCommunitiesByName
 };

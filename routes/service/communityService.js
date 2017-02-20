@@ -31,7 +31,12 @@ var _findRecommendCommunities = function(result){
     return deferred.promise;
 };
 
+var findCommunitiesByName = function (name,callback) {
+    communityDao.findCommunitiesByName(name,callback);
+};
+
 
 module.exports = {
-    findTheNearByAndRecommendCommunities : findTheNearByAndRecommendCommunities
+    findTheNearByAndRecommendCommunities : findTheNearByAndRecommendCommunities,
+    findCommunitiesByName : findCommunitiesByName
 };
