@@ -8,12 +8,12 @@ var findTheNearByAndRecommendCommunities = function(loc,callback){
         near : [],
         recommend : []
     };
-    Q.allSettled([findTheNearByCommunities(loc,res.near),findRecommendCommunities(res.recommend)]).then(function(){
+    Q.allSettled([_findTheNearByCommunities(loc,res.near),_findRecommendCommunities(res.recommend)]).then(function(){
         callback(res);
     });
 };
 
-var findTheNearByCommunities = function(loc,result){
+var _findTheNearByCommunities = function(loc,result){
     var deferred = Q.defer();
     communityDao.findCommunitiesByDistance(loc,conf.settings.lbs.maxDistances,function(docs){
         result.push(docs);
@@ -22,7 +22,7 @@ var findTheNearByCommunities = function(loc,result){
     return deferred.promise;
 };
 
-var findRecommendCommunities = function(result){
+var _findRecommendCommunities = function(result){
     var deferred = Q.defer();
     communityDao.findCommunitiesBySystemRecommend(function(docs){
         result.push(docs);

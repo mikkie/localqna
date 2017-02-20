@@ -32,7 +32,7 @@ var CommunitySchema = new Schema({
     createDate : { type: Date, default: Date.now },
     topics : [ObjectId],
     loc : mongoose.Schema.Types.Point,
-    invalid : Boolean,
+    invalid : {type : Boolean, default : false},
     systemRecommendedWeight : { type: Number, default : 0}
 });
 
