@@ -1,25 +1,11 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId;
+
 require('mongoose-geojson-schema');
 mongoose.connect('mongodb://localhost/localqnaxm');
 
 //define tables
-
-//0.geo
-var GeoSchema = new mongoose.Schema({
-    any: mongoose.Schema.Types.GeoJSON,
-    point: mongoose.Schema.Types.Point,
-    multipoint: mongoose.Schema.Types.MultiPoint,
-    linestring: mongoose.Schema.Types.LineString,
-    multilinestring: mongoose.Schema.Types.MultiLineString,
-    polygon: mongoose.Schema.Types.Polygon,
-    multipolygon: mongoose.Schema.Types.MultiPolygon,
-    geometry: mongoose.Schema.Types.Geometry,
-    geometrycollection: mongoose.Schema.Types.GeometryCollection,
-    feature: mongoose.Schema.Types.Feature,
-    featurecollection: mongoose.Schema.Types.FeatureCollection
-});
 
 //1.user
 var UserSchema = new Schema({
@@ -46,7 +32,7 @@ var CommunitySchema = new Schema({
     owner : ObjectId,
     createDate : { type: Date, default: Date.now },
     topics : [ObjectId],
-    loc : GeoSchema,
+    loc : {type : mongoose.Schema.Types.Point, index : '2dsphere'},
     invalid : {type : Boolean, default : false},
     systemRecommendedWeight : { type: Number, default : 0}
 });
@@ -92,8 +78,6 @@ var GlobalSettingsSchema = new Schema({
     }
 });
 
-CommunitySchema.index({loc: '2dsphere'});
-mongoose.model('GeoJSON', GeoSchema);
 mongoose.model('User',UserSchema);
 mongoose.model('Community',CommunitySchema);
 mongoose.model('Topic',TopicSchema);
