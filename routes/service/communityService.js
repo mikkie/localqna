@@ -4,9 +4,12 @@ var communityDao = require('../dao/communityDao'),
 
 
 var findTheNearByAndRecommendCommunities = function(loc,callback){
-    var result = [];
-    Q.allSettled([findTheNearByCommunities(loc,result),findRecommendCommunities(result)]).then(function(result){
-        callback(result);
+    var res = {
+        near : [],
+        recommend : []
+    };
+    Q.allSettled([findTheNearByCommunities(loc,res.near),findRecommendCommunities(res.recommend)]).then(function(){
+        callback(res);
     });
 };
 
