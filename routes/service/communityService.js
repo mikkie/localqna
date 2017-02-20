@@ -36,7 +36,13 @@ var findCommunitiesByName = function (name,callback) {
 };
 
 
+var createCommunity = function(name,loc, callback) {
+    communityDao.createCommunity(name,loc,callback);
+};
+
+
 module.exports = {
     findTheNearByAndRecommendCommunities : findTheNearByAndRecommendCommunities,
-    findCommunitiesByName : findCommunitiesByName
+    findCommunitiesByName : findCommunitiesByName,
+    createCommunity : createCommunity
 };

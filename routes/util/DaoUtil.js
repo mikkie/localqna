@@ -29,7 +29,15 @@ var findOne = function(schema,conditions,callback,sort){
     });
 };
 
+var insert = function (data,callback) {
+    data.save(function (err,result) {
+        _handleResult(err,result,callback);
+    });
+};
+
+
 module.exports = {
     find : find,
-    findOne : findOne
+    findOne : findOne,
+    insert : insert
 };
