@@ -22,4 +22,17 @@ router.post('/createNewTopic',function (req, res, next) {
     }
 });
 
+router.get('/findTopicsByCommunityId',function (req, res, next) {
+   var communityId = req.query.communityId;
+   if(!communityId){
+       res.json({"error" : "missing communityId"});
+   }
+   else{
+       topicService.findTopicsByCommunity(communityId,function(docs){
+           res.json({"success" : docs});
+       });
+   }
+});
+
+
 module.exports = router;

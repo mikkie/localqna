@@ -20,6 +20,12 @@ var createTopic = function(content,ownerId,communityId,communityName,expireLengt
 };
 
 
+var findTopicsByCommunity = function(communityId,callback){
+    topicDao.findTopicsByCommunity(communityId,callback);
+};
+
+
 module.exports = {
-    createTopic : createTopic
+    createTopic : createTopic,
+    findTopicsByCommunity : findTopicsByCommunity
 };
