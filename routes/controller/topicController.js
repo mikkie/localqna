@@ -12,7 +12,7 @@ router.post('/createNewTopic',function (req, res, next) {
     var communityName = req.body.communityName;
     var expireLength = req.body.expireLength;
     var expireDateUnit = req.body.expireDateUnit;
-    if(commonUtil.string.hasEmpty(content)){
+    if(commonUtil.string.hasEmpty(content,ownerId,communityId,communityName,expireLength,expireDateUnit)){
         res.json({"error" : "missing params"});
     }
     else{
