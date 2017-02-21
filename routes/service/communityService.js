@@ -40,9 +40,13 @@ var createCommunity = function(name,loc, callback) {
     communityDao.createCommunity(name,loc,callback);
 };
 
+var findStarCommunities = function(ids,callback){
+    communityDao.findCommunitiesById(ids,callback);
+};
 
 module.exports = {
     findTheNearByAndRecommendCommunities : findTheNearByAndRecommendCommunities,
     findCommunitiesByName : findCommunitiesByName,
-    createCommunity : createCommunity
+    createCommunity : createCommunity,
+    findStarCommunities : findStarCommunities
 };

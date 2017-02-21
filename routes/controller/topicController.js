@@ -35,4 +35,17 @@ router.get('/findTopicsByCommunityId',function (req, res, next) {
 });
 
 
+router.get('/findTopicsByOwner',function(req, res, next){
+    var ownerId = req.query.ownerId;
+    if(!ownerId){
+        res.json({"error" : "missing ownerId"});
+    }
+    else{
+        topicService.findTopicsByOwner(ownerId,function(docs){
+            res.json({"success" : docs});
+        });
+    }
+});
+
+
 module.exports = router;

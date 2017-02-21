@@ -24,8 +24,18 @@ var findTopicsByCommunity = function(communityId,callback){
     topicDao.findTopicsByCommunity(communityId,callback);
 };
 
+var findTopicsByOwner = function(ownerId,callback){
+    topicDao.findTopicsByOwner(ownerId,callback);
+};
+
+var findTopicsById = function(ids,callback){
+    topicDao.findTopicsById(ids,callback);
+};
+
 
 module.exports = {
     createTopic : createTopic,
-    findTopicsByCommunity : findTopicsByCommunity
+    findTopicsByCommunity : findTopicsByCommunity,
+    findTopicsByOwner : findTopicsByOwner,
+    findTopicsById : findTopicsById
 };

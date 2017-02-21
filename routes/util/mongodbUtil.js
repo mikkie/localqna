@@ -14,7 +14,6 @@ var UserSchema = new Schema({
     myCommunities : [ObjectId],
     starCommunities : [ObjectId],
     starTopics : [ObjectId],
-    myTopics : [ObjectId],
     myReplies : [ObjectId],
     notification : [{
         comment : ObjectId,

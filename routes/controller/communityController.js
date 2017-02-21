@@ -40,7 +40,6 @@ router.post('/createNewCommunity',function (req, res, next) {
 });
 
 
-
 var loadIndexPageCommunities = function(loc,res){
     communityService.findTheNearByAndRecommendCommunities(loc,function(docs){
         res.json({"success" : docs});
