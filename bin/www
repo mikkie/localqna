@@ -6,9 +6,9 @@
 
 var app = require('../app');
 var debug = require('debug')('localqna:server');
-var http = require('http');
 var https = require('https');
 var fs = require('fs');
+var constants = require('constants');
 
 /**
  * Get port from environment and store in Express.
@@ -25,7 +25,9 @@ var key = fs.readFileSync('../cert/localqna.key');
 var cert = fs.readFileSync('../cert/localqna.crt');
 var https_options = {
     key: key,
-    cert: cert
+    cert: cert,
+    secureProtocol: 'SSLv23_method',
+    secureOptions: constants.SSL_OP_NO_SSLv3 | constants.SSL_OP_NO_TLSv1
 };
 
 // var server = http.createServer(app);
