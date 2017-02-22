@@ -15,8 +15,13 @@ var findUserById = function(userId,callback){
     DaoUtil.findOne(User,{_id : objectID.createFromHexString(userId)},callback);
 };
 
+var findUserByWXopenId = function(wxopenid,callback){
+    DaoUtil.findOne(User,{wxopenid : wxopenid},callback);
+};
+
 
 module.exports = {
     createUser : createUser,
-    findUserById : findUserById
+    findUserById : findUserById,
+    findUserByWXopenId : findUserByWXopenId
 };

@@ -91,6 +91,10 @@ router.post('/decrptUserInfo',function (req,res,next) {
        userService.jscode2session(code,function (resm) {
            var openId = resm.openid;
            var session_key = resm.session_key;
+           userService.createUserIfNotExists(openId,function(user){
+              //todo
+
+           });
            userService.decrptUserInfo(session_key,encryptedData,iv,function (result) {
                res.json({"success" : result});
            });
