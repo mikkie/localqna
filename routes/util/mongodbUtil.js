@@ -33,7 +33,11 @@ var CommunitySchema = new Schema({
     topics : [ObjectId],
     loc : {type : mongoose.Schema.Types.Point, index : '2dsphere'},
     invalid : {type : Boolean, default : false},
-    systemRecommendedWeight : { type: Number, default : 0}
+    systemRecommendedWeight : { type: Number, default : 0},
+    avatar : {
+        color : { type: String },
+        character : { type: String }
+    }
 });
 
 

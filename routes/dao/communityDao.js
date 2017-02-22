@@ -16,13 +16,14 @@ var findCommunitiesByName = function (name,callback) {
     DaoUtil.find(Community,{name : new RegExp(name)},callback);
 };
 
-var createCommunity = function (name,loc,callback) {
+var createCommunity = function (name,loc,avatar,callback) {
     var community = new Community();
     community.name = name;
     community.loc = {
         type: "Point",
         coordinates: loc
     };
+    community.avatar = avatar;
     DaoUtil.insert(community,callback);
 };
 
