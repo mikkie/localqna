@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var communityService = require('../service/communityService');
+var userService = require('../service/userService');
 
 
 router.post('/loadIndexPageCommunities', function(req, res, next) {

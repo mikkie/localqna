@@ -1,3 +1,6 @@
+const https = require('https');
+var logger = require('../common/logger');
+
 var common = {
     string : {
        isAllEmpty : function(){
@@ -66,6 +69,27 @@ var common = {
                     deferred.resolve();
                 }
             }
+        }
+    },
+    https : {
+        request : function (request) {
+            var req = https.request(request.options, function(res) {
+                res.setEncoding('utf8');
+                res.on('data', function(d) {
+                    if(typeof request.callback === 'function'){
+                        request.callback(JSON.parse(d));
+                    }
+                });
+            });
+
+            req.on('error', function(e){
+                logger.error(e);
+            });
+
+            if(request.postData){
+                req.write(request.postData);
+            }
+            req.end();
         }
     }
 };

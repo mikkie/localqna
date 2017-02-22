@@ -80,4 +80,23 @@ router.get('/findStarTopicsByOwner',function(req,res,next){
 });
 
 
+router.post('/decrptUserInfo',function (req,res,next) {
+   var code = req.body.code;
+   var encryptedData = req.body.encryptedData;
+   var iv = req.body.iv;
+   if(commonUtil.string.hasEmpty(code,encryptedData,iv)){
+       res.json({"error" : "missing params"});
+   }
+   else{
+       userService.jscode2session(code,function (resm) {
+           var openId = resm.openid;
+           var session_key = resm.session_key;
+           userService.decrptUserInfo(session_key,encryptedData,iv,function (result) {
+               res.json({"success" : result});
+           });
+       });
+   }
+});
+
+
 module.exports = router;
