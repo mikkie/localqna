@@ -2,16 +2,11 @@ var userDao = require('../dao/userDao');
 var wxBizDataCrypt = require('../util/WXBizDataCrypt');
 var conf = require('../conf/conf');
 var commonUtil = require('../util/commonUtil');
+var session = require('../common/session');
 
-var login = function(wxopenid,session_key,session,callback){
+var login = function(wxopenid,session_key,callback){
     var writeSession = function(user){
-        var sessionId = commonUtil.string.guid();
-        session[sessionId] = {
-            userId : user._id,
-            wxopenid : wxopenid,
-            session_key : session_key
-        };
-        callback(sessionId);
+        session.createSession(user._id,callback);
     };
     userDao.findUserByWXopenId(wxopenid,function(user){
         if(!user){

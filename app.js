@@ -1,6 +1,6 @@
 var express = require('express');
-var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
+// var session = require('express-session');
+// var MongoStore = require('connect-mongo')(session);
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -32,14 +32,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({
-    key: 'localqna session',
-    secret: 'super localqna secret',
-    resave: false,
-    saveUninitialized: true,
-    store: new MongoStore({mongooseConnection: mongoose.connection,clear_interval: conf.server.session_time_out}),
-    cookie: {maxAge: conf.server.session_time_out * 1000 * 24}
-}));
+// app.use(session({
+//     key: 'localqna session',
+//     secret: 'super localqna secret',
+//     resave: false,
+//     saveUninitialized: true,
+//     store: new MongoStore({mongooseConnection: mongoose.connection,clear_interval: conf.server.session_time_out}),
+//     cookie: {maxAge: conf.server.session_time_out * 1000 * 24}
+// }));
 
 app.use('/', index);
 app.use('/users', users);

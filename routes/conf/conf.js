@@ -21,7 +21,7 @@ var globalConf = {
        jscode2sessionApi : '/sns/jscode2session?appid={APPID}&secret={SECRET}&js_code={JSCODE}&grant_type=authorization_code'
     },
     server : {
-        session_time_out : 60 * 60
+        session_time_out : 60 * 60 * 1000 * 24
     }
 };
 

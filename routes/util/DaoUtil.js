@@ -27,6 +27,12 @@ var findOne = function(schema,conditions,callback){
     });
 };
 
+var findOneAndUpdate = function (schema,conditions,update,callback) {
+    schema.findOneAndUpdate(conditions,update,{new : true},function(err,doc){
+        _handleResult(err,doc,callback);
+    });
+};
+
 var findByIdOrIds = function(schema,idOrIds,callback,sort){
     var condition = '';
     if(idOrIds instanceof Array){
@@ -53,5 +59,6 @@ module.exports = {
     find : find,
     findOne : findOne,
     insert : insert,
-    findByIdOrIds : findByIdOrIds
+    findByIdOrIds : findByIdOrIds,
+    findOneAndUpdate : findOneAndUpdate
 };

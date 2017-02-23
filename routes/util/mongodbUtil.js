@@ -21,7 +21,11 @@ var UserSchema = new Schema({
     }],
     score : { type: Number, default : 100},
     settings : {
-
+    },
+    session : {
+        id : {type : String, index : true},
+        value : {type : Object},
+        expire : { type: Date }
     }
 });
 
