@@ -6,19 +6,6 @@ var topicService = require('../service/topicService');
 var commonUtil = require('../util/commonUtil');
 
 
-router.post('/createUser',function (req, res, next) {
-    var wxopenid = req.body.wxopenid;
-    if(!wxopenid){
-        res.json({"error" : "missing wxopenid"});
-    }
-    else{
-        userService.createUser(wxopenid,function (doc) {
-            res.json({"success" : doc});
-        });
-    }
-});
-
-
 router.get('/findStarCommunitiesByOwner',function(req,res,next){
     var ownerId = req.query.ownerId;
     if(!ownerId){
@@ -80,27 +67,39 @@ router.get('/findStarTopicsByOwner',function(req,res,next){
 });
 
 
-router.post('/decrptUserInfo',function (req,res,next) {
+router.post('/login',function (req,res,next) {
    var code = req.body.code;
-   var encryptedData = req.body.encryptedData;
-   var iv = req.body.iv;
-   if(commonUtil.string.hasEmpty(code,encryptedData,iv)){
-       res.json({"error" : "missing params"});
+   //var encryptedData = req.body.encryptedData;
+   //var iv = req.body.iv;
+   if(commonUtil.string.hasEmpty(code)){
+       res.json({"error" : "missing code"});
    }
    else{
        userService.jscode2session(code,function (resm) {
            var openId = resm.openid;
            var session_key = resm.session_key;
-           userService.createUserIfNotExists(openId,function(user){
-              //todo
-
+           userService.login(openId,session_key,req.session,function(sessionId){
+              res.json({"success" : sessionId});
            });
-           userService.decrptUserInfo(session_key,encryptedData,iv,function (result) {
-               res.json({"success" : result});
-           });
+           //userService.decrptUserInfo(session_key,encryptedData,iv,function (result) {
+           //    res.json({"success" : result});
+           //});
        });
    }
 });
+
+
+/*router.post('/getUserId',function (req,res,next){
+    var sessionId = req.body.sessionId;
+    if(!sessionId){
+        res.json({"error" : "missing sessionId"});
+    }
+    else{
+        userService.getUserId(sessionId,req.session,function(userId){
+            res.json({"success" : userId});
+        });
+    }
+});*/
 
 
 module.exports = router;

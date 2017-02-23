@@ -1,7 +1,7 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId;
-
+mongoose.Promise = global.Promise;
 require('mongoose-geojson-schema');
 mongoose.connect('mongodb://localhost/localqnaxm');
 

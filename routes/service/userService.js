@@ -3,15 +3,34 @@ var wxBizDataCrypt = require('../util/WXBizDataCrypt');
 var conf = require('../conf/conf');
 var commonUtil = require('../util/commonUtil');
 
-var createUserIfNotExists = function(wxopenid,callback){
+var login = function(wxopenid,session_key,session,callback){
+    var writeSession = function(user){
+        var sessionId = commonUtil.string.guid();
+        session[sessionId] = {
+            userId : user._id,
+            wxopenid : wxopenid,
+            session_key : session_key
+        };
+        callback(sessionId);
+    };
     userDao.findUserByWXopenId(wxopenid,function(user){
         if(!user){
-            userDao.createUser(wxopenid,callback);
+            userDao.createUser(wxopenid,writeSession);
         }
         else{
-            callback(user);
+            writeSession(user);
         }
     });
+};
+
+
+var getUserId = function(sessionId,session,callback){
+    if(session[sessionId]){
+        callback(session[sessionId].userId);
+    }
+    else{
+        callback(null);
+    }
 };
 
 
@@ -37,8 +56,9 @@ var jscode2session = function (code,callback) {
 };
 
 module.exports = {
-    createUserIfNotExists : createUserIfNotExists,
+    login : login,
     findUserById : findUserById,
     decrptUserInfo : decrptUserInfo,
-    jscode2session : jscode2session
+    jscode2session : jscode2session,
+    getUserId : getUserId
 };

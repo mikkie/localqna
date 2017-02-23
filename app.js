@@ -1,9 +1,13 @@
 var express = require('express');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var conf = require('./routes/conf/conf');
+var mongoose = require('./routes/util/mongodbUtil');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -27,6 +31,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({
+    key: 'localqna session',
+    secret: 'super localqna secret',
+    resave: false,
+    saveUninitialized: true,
+    store: new MongoStore({mongooseConnection: mongoose.connection,clear_interval: conf.server.session_time_out}),
+    cookie: {maxAge: conf.server.session_time_out * 1000 * 24}
+}));
 
 app.use('/', index);
 app.use('/users', users);
