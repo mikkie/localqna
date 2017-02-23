@@ -6,8 +6,9 @@ var userService = require('../service/userService');
 
 router.post('/loadIndexPageCommunities', function(req, res, next) {
     var loc = req.body.location;
+    var sessionId = req.body.sessionId;
     if(loc){
-        loadIndexPageCommunities(loc,res);
+        loadIndexPageCommunities(loc,req.session[sessionId].userId,res);
     }
     else{
         res.json({"error" : "loc is empty"});
@@ -41,8 +42,8 @@ router.post('/createNewCommunity',function (req, res, next) {
 });
 
 
-var loadIndexPageCommunities = function(loc,res){
-    communityService.findTheNearByAndRecommendCommunities(loc,function(docs){
+var loadIndexPageCommunities = function(loc,userId,res){
+    communityService.findTheNearByAndRecommendCommunities(loc,userId,function(docs){
         res.json({"success" : docs});
     });
 };

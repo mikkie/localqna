@@ -1,16 +1,40 @@
 var communityDao = require('../dao/communityDao'),
+    userDao = require('../dao/userDao'),
     conf = require('../conf/conf'),
     common = require('../util/commonUtil'),
     Q = require("q");
 
 
-var findTheNearByAndRecommendCommunities = function(loc,callback){
+var tagCommunityStar = function(starCommunityIds,communities){
+    if(!starCommunityIds || starCommunityIds.length == 0 || !communities || communities.length == 0){
+        return;
+    }
+    for(var i in starCommunityIds){
+       for(var j in communities){
+           if(starCommunityIds[i].toString() == communities[j]._id.toString()){
+               communities[j].star = true;
+               continue;
+           }
+       }
+    }
+};
+
+
+var findTheNearByAndRecommendCommunities = function(loc,userId,callback){
     var res = {
         near : [],
         recommend : []
     };
     Q.allSettled([_findTheNearByCommunities(loc,res),_findRecommendCommunities(res)]).then(function(){
-        callback(res);
+        userDao.findUserById(userId,function(user){
+            if(user){
+                var starCommunity = user.starCommunities;
+                tagCommunityStar(starCommunity,res.near);
+                tagCommunityStar(starCommunity,res.recommend);
+                callback(res);
+            }
+        });
+
     });
 };
 
