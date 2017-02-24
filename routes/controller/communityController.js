@@ -3,20 +3,23 @@ var router = express.Router();
 var communityService = require('../service/communityService');
 var userService = require('../service/userService');
 var session = require('../common/session');
+var validate = require('../common/validate');
 
 
 router.post('/loadIndexPageCommunities', function(req, res, next) {
-    var loc = req.body.location;
-    var sessionId = req.body.sessionId;
-    if(loc){
-        session.getUserSession(sessionId,function (user) {
+    var params = {
+        loc : req.body.location,
+        sessionId : req.body.sessionId
+    };
+    if(validate.requirePass(res,params)){
+        session.getUserSession(params.sessionId,function (user) {
             if(user){
-                loadIndexPageCommunities(loc,user._id,res);
+                loadIndexPageCommunities(params.loc,user._id,res);
+            }
+            else{
+                res.json({"error" : "user not exists: " + params.sessionId});
             }
         });
-    }
-    else{
-        res.json({"error" : "loc is empty"});
     }
 });
 

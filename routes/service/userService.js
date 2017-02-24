@@ -38,7 +38,7 @@ var decrptUserInfo = function (sessionKey,encryptedData,iv,callback) {
    callback(data);
 };
 
-var jscode2session = function (code,callback) {
+var jscode2session = function (code,callback,erroHandler) {
     commonUtil.https.request({
         options : {
             hostname: conf.service.wxApiHost,
@@ -46,7 +46,8 @@ var jscode2session = function (code,callback) {
             path: conf.service.jscode2sessionApi.replace('{APPID}',conf.app.appId).replace('{SECRET}',conf.app.appSecret).replace('{JSCODE}',code),
             method: 'GET',
         },
-        callback : callback
+        callback : callback,
+        erroHandler : erroHandler
     });
 };
 

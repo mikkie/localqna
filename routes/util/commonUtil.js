@@ -93,6 +93,9 @@ var common = {
 
             req.on('error', function(e){
                 logger.error(e);
+                if(typeof request.erroHandler === 'function'){
+                    request.erroHandler(e);
+                }
             });
 
             if(request.postData){
