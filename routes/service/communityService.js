@@ -2,7 +2,8 @@ var communityDao = require('../dao/communityDao'),
     userDao = require('../dao/userDao'),
     conf = require('../conf/conf'),
     common = require('../util/commonUtil'),
-    Q = require("q");
+    Q = require("q"),
+    logger = require('../common/logger');
 
 
 var tagCommunityStar = function(starCommunityIds,communities){
@@ -61,12 +62,21 @@ var findCommunitiesByName = function (name,callback) {
 };
 
 
-var createCommunity = function(name,loc, callback) {
+var createCommunity = function(name,loc,sessionId,callback,errHandler) {
     var avatar = {
         color : common.color.randomColor(''),
         character : name.substring(0,1)
     };
-    communityDao.createCommunity(name,loc,avatar,callback);
+    communityDao.createCommunity(name,loc,avatar,function(community){
+        if(community){
+            userDao.addToMyCommunities(sessionId,community._id,callback);
+        }
+        else{
+            var msg = sessionId + ' failed to create community on ' + loc.join(',') + ' name=' + name;
+            logger.error(msg);
+            errHandler(msg);
+        }
+    });
 };
 
 var findStarCommunities = function(ids,callback){

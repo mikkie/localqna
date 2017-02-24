@@ -37,14 +37,16 @@ router.post('/findCommunitiesByName',function (req,res,next) {
 
 
 router.post('/createNewCommunity',function (req, res, next) {
-    var name = req.body.name;
-    var loc = req.body.location;
-    if(!name || !loc){
-        res.json({"error" : "missing params"});
-    }
-    else{
-        communityService.createCommunity(name,loc,function (doc) {
+    var params = {
+        name : req.body.name,
+        loc : req.body.location,
+        sessionId : req.body.sessionId
+    };
+    if(validate.requirePass(res,params)){
+        communityService.createCommunity(params.name,params.loc,params.sessionId,function (doc) {
             res.json({"success" : doc});
+        },function(err){
+            res.json({"error" : err});
         });
     }
 });

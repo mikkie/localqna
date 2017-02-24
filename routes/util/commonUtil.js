@@ -3,6 +3,18 @@ var logger = require('../common/logger');
 
 var common = {
     string : {
+       isEmpty : function(obj){
+           if(!obj){
+               return true;
+           }
+           if(typeof obj === 'string'){
+               obj = obj.replace(/(^\s*)|(\s*$)/g, "");
+               if(obj.length == 0){
+                   return true;
+               }
+           }
+           return false;
+       },
        isAllEmpty : function(){
           if(arguments.length > 0){
               for(var i in arguments){

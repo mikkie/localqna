@@ -1,11 +1,12 @@
-var logger = require('./logger');
+var logger = require('./logger'),
+    common = require('../util/commonUtil');
 
 var validate = {
    requirePass : function(res,obj){
        var temp = 'Missing params : ';
        var missing = [];
        for(var k in obj){
-           if(!obj[k]){
+           if(common.string.isEmpty(obj[k])){
                missing.push(k);
            }
        }
