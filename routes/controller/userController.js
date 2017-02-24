@@ -90,6 +90,16 @@ router.post('/login', function (req, res, next) {
     }
 });
 
-
+router.post('/createUser', function (req, res, next) {
+    var params = {
+        openId: req.body.openId,
+        session_key : req.body.session_key
+    };
+    if(validate.requirePass(res,params)){
+        userService.login(params.openId, params.session_key, function (sessionId) {
+            res.json({"success": sessionId});
+        });
+    }
+});
 
 module.exports = router;
