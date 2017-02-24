@@ -14,7 +14,7 @@ router.post('/loadIndexPageCommunities', function(req, res, next) {
     if(validate.requirePass(res,params)){
         session.getUserSession(params.sessionId,function (user) {
             if(user){
-                loadIndexPageCommunities(params.loc,user._id,res);
+                loadIndexPageCommunities(params.loc,user.starCommunities,res);
             }
             else{
                 res.json({"error" : "user not exists: " + params.sessionId});
@@ -24,14 +24,21 @@ router.post('/loadIndexPageCommunities', function(req, res, next) {
 });
 
 router.post('/findCommunitiesByName',function (req,res,next) {
-    var name = req.body.name;
-    if(name){
-        communityService.findCommunitiesByName(name,function (docs) {
-            res.json({"success" : docs});
+    var params = {
+        name : req.body.name,
+        sessionId : req.body.sessionId
+    };
+    if(validate.requirePass(res,params)){
+        session.getUserSession(params.sessionId,function (user) {
+            if(user){
+                communityService.findCommunitiesByName(params.name,user.starCommunities,function (docs) {
+                    res.json({"success" : docs});
+                });
+            }
+            else{
+                res.json({"error" : "user not exists: " + params.sessionId});
+            }
         });
-    }
-    else{
-        res.json({"error" : "name is empty"});
     }
 });
 
@@ -52,8 +59,8 @@ router.post('/createNewCommunity',function (req, res, next) {
 });
 
 
-var loadIndexPageCommunities = function(loc,userId,res){
-    communityService.findTheNearByAndRecommendCommunities(loc,userId.toString(),function(docs){
+var loadIndexPageCommunities = function(loc,starCommunities,res){
+    communityService.findTheNearByAndRecommendCommunities(loc,starCommunities,function(docs){
         res.json({"success" : docs});
     });
 };

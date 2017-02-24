@@ -19,6 +19,7 @@ var getUserSession = function (sessionId,callback) {
         if(user && user.session && user.session.expire){
            if(user.session.expire.getTime() > new Date().getTime()){
                callback(user);
+               return;
            }
         }
         callback(null);
