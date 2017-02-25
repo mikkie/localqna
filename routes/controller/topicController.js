@@ -8,17 +8,16 @@ var validate = require('../common/validate');
 
 router.post('/createNewTopic',function (req, res, next) {
     var params = {
-        userInfo : req.body.userInf,
+        userInfo : req.body.userInfo,
         content : req.body.content,
         sessionId : req.body.sessionId,
         communityId : req.body.communityId,
         communityName : req.body.communityName,
         expireLength : req.body.expireLength,
-        expireDateUnit : req.body.expireDateUnit,
-        anonymous : req.body.anonymous
-    }
-    if(validate.requirePass(content,sessionId,communityId,communityName,expireLength,expireDateUnit)){
-        topicService.createTopic(userInfo,content,sessionId,communityId,communityName,expireLength,expireDateUnit,anonymous,function (doc) {
+        expireDateUnit : req.body.expireDateUnit
+    };
+    if(validate.requirePass(res,params)){
+        topicService.createTopic(params.userInfo,params.content,params.sessionId,params.communityId,params.communityName,params.expireLength,params.expireDateUnit,req.body.anonymous,function (doc) {
             if(!doc.error){
                 res.json({"success" : doc});
             }

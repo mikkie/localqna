@@ -1,5 +1,6 @@
 var topicDao = require('../dao/topicDao');
 var conf = require('../conf/conf');
+var session = require('../common/session');
 
 
 var createTopic = function(userInfo,content,sessionId,communityId,communityName,expireLength,expireDateUnit,anonymous,callback){

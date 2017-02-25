@@ -16,7 +16,11 @@ var findTopicsByOwner = function(ownerId,callback){
 var createTopic = function(data,callback){
     var topic = new Topic();
     topic.content = data.content;
-    topic.owner = data.owner;
+    topic.owner = {
+        id : data.owner,
+        name : data.userName,
+        avatar : data.avatar
+    };
     topic.community = {
         id : objectID.createFromHexString(data.communityId),
         name : data.communityName
