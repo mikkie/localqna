@@ -51,10 +51,41 @@ var jscode2session = function (code,callback,erroHandler) {
     });
 };
 
+var toggleStarCommunity = function (communityId,sessionId,isAdd,callback) {
+    isAdd = (isAdd == 'true' ? true : false);
+    session.getUserSession(sessionId,function (user) {
+        if(user){
+            var find = false;
+            var starCommunities = user.starCommunities;
+            if(starCommunities && starCommunities.length > 0){
+               for(var i in starCommunities){
+                  if(starCommunities[i].toString() == communityId){
+                      find = true;
+                      break;
+                  }
+               }
+            }
+            if(!(isAdd ^ find)){
+                callback(user);
+            }
+            else if(isAdd){
+                userDao.addToStarCommunities(user._id,communityId,callback);
+            }
+            else{
+                userDao.removeStarCommunities(user._id,communityId,callback);
+            }
+        }
+        else{
+            callback(null);
+        }
+    });
+};
+
 module.exports = {
     login : login,
     findUserById : findUserById,
     decrptUserInfo : decrptUserInfo,
     jscode2session : jscode2session,
-    getUserId : getUserId
+    getUserId : getUserId,
+    toggleStarCommunity : toggleStarCommunity
 };

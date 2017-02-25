@@ -23,10 +23,20 @@ var addToMyCommunities = function(sessionId,communityId,callback){
     DaoUtil.findOneAndUpdate(User,{"session.id" : sessionId},{$push: {"myCommunities": communityId,"starCommunities": communityId}},callback);
 };
 
+var addToStarCommunities = function (userId,communityId,callback) {
+    DaoUtil.findByIdAndUpdate(User,userId,{$push: {"starCommunities": objectID.createFromHexString(communityId)}},callback);
+};
+
+var removeStarCommunities = function (userId,communityId,callback) {
+    DaoUtil.findByIdAndUpdate(User,userId,{$pull: {"starCommunities": objectID.createFromHexString(communityId)}},callback);
+};
+
 
 module.exports = {
     createUser : createUser,
     findUserById : findUserById,
     findUserByWXopenId : findUserByWXopenId,
-    addToMyCommunities : addToMyCommunities
+    addToMyCommunities : addToMyCommunities,
+    addToStarCommunities : addToStarCommunities,
+    removeStarCommunities : removeStarCommunities
 };

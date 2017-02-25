@@ -102,4 +102,23 @@ router.post('/createUser', function (req, res, next) {
     }
 });
 
+router.post('/toggleStarCommunity', function (req, res, next) {
+    var params = {
+        communityId: req.body.communityId,
+        sessionId : req.body.sessionId,
+        isAdd : req.body.isAdd
+    };
+    if(validate.requirePass(res,params)){
+        userService.toggleStarCommunity(params.communityId,params.sessionId,params.isAdd, function (user) {
+            if(user){
+                res.json({"success": user});
+            }
+            else{
+                res.json({"error": "user not exists"});
+            }
+        });
+    }
+});
+
+
 module.exports = router;
