@@ -22,6 +22,10 @@ var globalConf = {
     },
     server : {
         session_time_out : 60 * 60 * 1000 * 24
+    },
+    global : {
+        anonymousName : '匿名用户',
+        anonymousAvatar : '../../images/unknown.png'
     }
 };
 

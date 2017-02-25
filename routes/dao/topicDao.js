@@ -16,12 +16,13 @@ var findTopicsByOwner = function(ownerId,callback){
 var createTopic = function(data,callback){
     var topic = new Topic();
     topic.content = data.content;
-    topic.owner = objectID.createFromHexString(data.owner);
+    topic.owner = data.owner;
     topic.community = {
         id : objectID.createFromHexString(data.communityId),
         name : data.communityName
     };
     topic.expireDate = data.expireDate;
+    topic.anonymous = data.anonymous;
     DaoUtil.insert(topic,callback);
 };
 
