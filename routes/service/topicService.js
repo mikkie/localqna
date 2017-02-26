@@ -1,6 +1,7 @@
 var topicDao = require('../dao/topicDao');
 var conf = require('../conf/conf');
 var session = require('../common/session');
+var commonUtil = require('../util/commonUtil');
 
 
 var createTopic = function(userInfo,content,sessionId,communityId,communityName,expireLength,expireDateUnit,anonymous,callback){
@@ -38,9 +39,29 @@ var createTopic = function(userInfo,content,sessionId,communityId,communityName,
     });
 };
 
+var tagStarTopics = function(starTopics, topics){
+    if(!topics || topics.length == 0){
+        return;
+    }
+    var tag = (!starTopics || starTopics.length == 0);
+    for (var i in topics) {
+        topics[i]._doc.createDate = commonUtil.dates.formatTime(topics[i].createDate);
+        if(!tag){
+            for (var j in starTopics) {
+                if (starTopics[j].toString() == topics[i]._id.toString()) {
+                    topics[i]._doc.star = true;
+                    continue;
+                }
+            }
+        }
+    }
+};
 
-var findTopicsByCommunity = function(communityId,callback){
-    topicDao.findTopicsByCommunity(communityId,callback);
+var findTopicsByCommunity = function(starTopics,communityId,callback){
+    topicDao.findTopicsByCommunity(communityId,function(topics){
+        tagStarTopics(starTopics,topics);
+        callback(topics);
+    });
 };
 
 var findTopicsByOwner = function(ownerId,callback){

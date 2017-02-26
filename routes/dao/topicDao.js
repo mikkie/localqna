@@ -6,7 +6,7 @@ var mongoose = require('../util/mongodbUtil'),
 
 
 var findTopicsByCommunity = function(communityId,callback){
-    DaoUtil.find(Topic,{"community.id" : objectID.createFromHexString(communityId)},callback,{createDate:-1});
+    DaoUtil.find(Topic,{"community.id" : objectID.createFromHexString(communityId),"expireDate" : {$gt : new Date()}},callback,{createDate:-1});
 };
 
 var findTopicsByOwner = function(ownerId,callback){

@@ -3,6 +3,7 @@ var router = express.Router();
 var topicService = require('../service/topicService');
 var commonUtil = require('../util/commonUtil');
 var validate = require('../common/validate');
+var session = require('../common/session');
 
 
 
@@ -29,13 +30,20 @@ router.post('/createNewTopic',function (req, res, next) {
 });
 
 router.get('/findTopicsByCommunityId',function (req, res, next) {
-   var communityId = req.query.communityId;
-   if(!communityId){
-       res.json({"error" : "missing communityId"});
-   }
-   else{
-       topicService.findTopicsByCommunity(communityId,function(docs){
-           res.json({"success" : docs});
+   var params = {
+       communityId : req.query.communityId,
+       sessionId : req.query.sessionId
+   };
+   if(validate.requirePass(res,params)){
+       session.getUserSession(params.sessionId,function (user) {
+           if(user){
+               topicService.findTopicsByCommunity(user.starTopics,params.communityId,function(docs){
+                   res.json({"success" : docs});
+               });
+           }
+           else{
+               res.json({"error" : "user not exists: " + params.sessionId});
+           }
        });
    }
 });
