@@ -120,5 +120,23 @@ router.post('/toggleStarCommunity', function (req, res, next) {
     }
 });
 
+router.post('/toggleStarTopics', function (req, res, next) {
+    var params = {
+        topicId: req.body.topicId,
+        sessionId : req.body.sessionId,
+        isAdd : req.body.isAdd
+    };
+    if(validate.requirePass(res,params)){
+        userService.toggleStarTopic(params.topicId,params.sessionId,params.isAdd, function (user) {
+            if(user){
+                res.json({"success": user});
+            }
+            else{
+                res.json({"error": "user not exists"});
+            }
+        });
+    }
+});
+
 
 module.exports = router;

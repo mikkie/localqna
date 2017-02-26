@@ -31,6 +31,14 @@ var removeStarCommunities = function (userId,communityId,callback) {
     DaoUtil.findByIdAndUpdate(User,userId,{$pull: {"starCommunities": objectID.createFromHexString(communityId)}},callback);
 };
 
+var addToStarTopics = function(userId,topicId,callback){
+    DaoUtil.findOneAndUpdate(User,userId,{$push: {"starTopics": objectID.createFromHexString(topicId)}},callback);
+};
+
+var removeStarTopics = function (userId,topicId,callback) {
+    DaoUtil.findByIdAndUpdate(User,userId,{$pull: {"starTopics": objectID.createFromHexString(topicId)}},callback);
+};
+
 
 module.exports = {
     createUser : createUser,
@@ -38,5 +46,7 @@ module.exports = {
     findUserByWXopenId : findUserByWXopenId,
     addToMyCommunities : addToMyCommunities,
     addToStarCommunities : addToStarCommunities,
-    removeStarCommunities : removeStarCommunities
+    removeStarCommunities : removeStarCommunities,
+    addToStarTopics : addToStarTopics,
+    removeStarTopics : removeStarTopics
 };

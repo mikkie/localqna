@@ -1,4 +1,5 @@
 var topicDao = require('../dao/topicDao');
+var userDao = require('../dao/userDao');
 var conf = require('../conf/conf');
 var session = require('../common/session');
 var commonUtil = require('../util/commonUtil');
@@ -31,7 +32,11 @@ var createTopic = function(userInfo,content,sessionId,communityId,communityName,
                data.userName = userInfo.nickName;
                data.avatar = userInfo.avatarUrl;
            }
-           topicDao.createTopic(data,callback);
+           topicDao.createTopic(data,function(topic){
+               userDao.addToStarTopics(user._id,topic._id.toString(),function(user){
+                   callback(topic);
+               });
+           });
        }
        else{
            callback({"error" : "user not exists"});

@@ -81,11 +81,45 @@ var toggleStarCommunity = function (communityId,sessionId,isAdd,callback) {
     });
 };
 
+
+var toggleStarTopic = function (topicId,sessionId,isAdd,callback) {
+    isAdd = (isAdd == 'true' ? true : false);
+    session.getUserSession(sessionId,function (user) {
+        if(user){
+            var find = false;
+            var starTopics = user.starTopics;
+            if(starTopics && starTopics.length > 0){
+                for(var i in starTopics){
+                    if(starTopics[i].toString() == topicId){
+                        find = true;
+                        break;
+                    }
+                }
+            }
+            if(!(isAdd ^ find)){
+                callback(user);
+            }
+            else if(isAdd){
+                userDao.addToStarTopics(user._id,topicId,callback);
+            }
+            else{
+                userDao.removeStarTopics(user._id,topicId,callback);
+            }
+        }
+        else{
+            callback(null);
+        }
+    });
+};
+
+
+
 module.exports = {
     login : login,
     findUserById : findUserById,
     decrptUserInfo : decrptUserInfo,
     jscode2session : jscode2session,
     getUserId : getUserId,
-    toggleStarCommunity : toggleStarCommunity
+    toggleStarCommunity : toggleStarCommunity,
+    toggleStarTopic : toggleStarTopic
 };
