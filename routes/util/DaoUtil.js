@@ -5,6 +5,7 @@ var logger = require('../common/logger'),
 var _handleResult = function(err,docs,callback){
     if(err){
         logger.error(err);
+        callback({error : err});
     }
     else{
         callback(docs);

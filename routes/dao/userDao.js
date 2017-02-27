@@ -39,6 +39,10 @@ var removeStarTopics = function (userId,topicId,callback) {
     DaoUtil.findByIdAndUpdate(User,userId,{$pull: {"starTopics": objectID.createFromHexString(topicId)}},callback);
 };
 
+var addToMyReplies = function(userId,topicId,callback){
+    DaoUtil.findOneAndUpdate(User,userId,{$push: {"myReplies": topicId}},callback);
+};
+
 
 module.exports = {
     createUser : createUser,
@@ -48,5 +52,6 @@ module.exports = {
     addToStarCommunities : addToStarCommunities,
     removeStarCommunities : removeStarCommunities,
     addToStarTopics : addToStarTopics,
-    removeStarTopics : removeStarTopics
+    removeStarTopics : removeStarTopics,
+    addToMyReplies : addToMyReplies
 };

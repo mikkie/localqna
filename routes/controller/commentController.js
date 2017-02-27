@@ -15,8 +15,10 @@ router.post('/createNewComment',function (req, res, next) {
     if(validate.requirePass(res,params)){
         session.getUserSession(params.sessionId,function (user) {
             if(user){
-                commentService.createComment(params.userInfo,params.content,user._id,params.topicId,req.body.to,req.body.anonymous,function (doc) {
+                commentService.createComment(params.userInfo,params.content,user,params.topicId,req.body.to,req.body.anonymous,function (doc) {
                     res.json({"success" : doc});
+                },function(err){
+                    res.json({"error" : err});
                 });
             }
             else{
@@ -28,10 +30,14 @@ router.post('/createNewComment',function (req, res, next) {
 
 
 router.get('/findCommentsByTopicId',function (req, res, next) {
-   var topicId = req.query.topicId;
-   commentService.findCommentsByTopicId(topicId,function(doc){
-       res.json({"success" : doc});
-   });
+   var params = {
+       topicId : req.query.topicId
+   };
+   if(validate.requirePass(res,params)){
+       commentService.findCommentsByTopicId(params.topicId,function(doc){
+           res.json({"success" : doc});
+       });
+   }
 });
 
 

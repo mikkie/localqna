@@ -34,19 +34,24 @@ router.get('/findStarCommunitiesByOwner', function (req, res, next) {
 
 
 router.get('/findUserRepliesTopics', function (req, res, next) {
-    var ownerId = req.query.ownerId;
-    if (!ownerId) {
-        res.json({"error": "missing ownerId"});
-    }
-    else {
-        userService.findUserById(ownerId, function (doc) {
-            if (doc) {
-                var myReplies = doc.myReplies;
+    var params = {
+        sessionId: req.query.sessionId
+    };
+    if (validate.requirePass(params)) {
+        session.getUserSession(params.sessionId, function (user) {
+            if(user){
+                var myReplies = user.myReplies;
                 if (myReplies && myReplies.length > 0) {
                     topicService.findTopicsById(myReplies, function (docs) {
                         res.json({"success": docs});
                     });
                 }
+                else{
+                    res.json({"success": []});
+                }
+            }
+            else{
+                res.json({"error": "user not exists, sessionId = " + params.sessionId});
             }
         });
     }

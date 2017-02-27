@@ -16,7 +16,11 @@ var createSession = function (userId,callback) {
 
 var getUserSession = function (sessionId,callback) {
     DaoUtil.findOne(User,{"session.id":sessionId},function (user) {
-        if(user && user.session && user.session.expire){
+        if(!user || user.error){
+           callback(null);
+           return;
+        }
+        else if(user.session && user.session.expire){
            if(user.session.expire.getTime() > new Date().getTime()){
                callback(user);
                return;
