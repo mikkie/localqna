@@ -4,6 +4,8 @@ var topicService = require('../service/topicService');
 var commonUtil = require('../util/commonUtil');
 var validate = require('../common/validate');
 var session = require('../common/session');
+var mongo = require('mongodb'),
+    objectID = mongo.ObjectID;
 
 
 
@@ -46,6 +48,23 @@ router.get('/findTopicsByCommunityId',function (req, res, next) {
            }
        });
    }
+});
+
+
+router.get('/getTopicById',function(req, res, next){
+    var params = {
+        topicId : req.query.topicId
+    };
+    if(validate.requirePass(res,params)){
+        topicService.findTopicsById(objectID.createFromHexString(params.topicId),function(result){
+            if(result.error){
+               res.json({"error" : result.error});
+            }
+            else{
+               res.json({"success" : result});
+            }
+        });
+    }
 });
 
 
