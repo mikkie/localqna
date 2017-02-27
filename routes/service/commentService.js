@@ -45,7 +45,18 @@ var findCommentsByTopicId = function(topicId,callback){
     });
 };
 
+var upOrDownComment = function(commentId,isUp,callback){
+    if(isUp){
+        commentDao.upOrDownComment(commentId,{"up" : 1},callback);
+    }
+    else{
+        commentDao.upOrDownComment(commentId,{"down" : 1},callback);
+    }
+};
+
+
 module.exports = {
     createComment : createComment,
-    findCommentsByTopicId : findCommentsByTopicId
+    findCommentsByTopicId : findCommentsByTopicId,
+    upOrDownComment : upOrDownComment
 };

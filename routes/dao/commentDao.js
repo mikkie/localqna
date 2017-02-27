@@ -36,8 +36,12 @@ var findCommentsByTopicId = function(topicId,callback){
     DaoUtil.find(Comment,{topic : objectID.createFromHexString(topicId)},callback,{createDate : -1});
 };
 
+var upOrDownComment = function(commentId,inc,callback){
+    DaoUtil.findByIdAndUpdate(Comment,objectID.createFromHexString(commentId),{$inc : inc},callback);
+};
 
 module.exports = {
     createComment : createComment,
-    findCommentsByTopicId : findCommentsByTopicId
+    findCommentsByTopicId : findCommentsByTopicId,
+    upOrDownComment : upOrDownComment
 };

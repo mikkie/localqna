@@ -44,5 +44,16 @@ router.get('/findCommentsByTopicId',function (req, res, next) {
    }
 });
 
+router.get('/upOrDownComment',function (req, res, next) {
+    var params = {
+        commentId : req.query.commentId,
+    };
+    if(validate.requirePass(res,params)){
+        commentService.upOrDownComment(params.commentId,req.query.isUp,function(comment){
+            res.json({"success" : comment});
+        });
+    }
+});
+
 
 module.exports = router;
