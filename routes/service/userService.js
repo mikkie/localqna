@@ -3,6 +3,8 @@ var wxBizDataCrypt = require('../util/WXBizDataCrypt');
 var conf = require('../conf/conf');
 var commonUtil = require('../util/commonUtil');
 var session = require('../common/session');
+var mongo = require('mongodb'),
+    objectID = mongo.ObjectID;
 
 var login = function(wxopenid,session_key,callback){
     var writeSession = function(user){
@@ -113,6 +115,22 @@ var toggleStarTopic = function (topicId,sessionId,isAdd,callback) {
 };
 
 
+var notifyComment = function(commentId,to){
+    if(to && to.length > 0){
+       var toIds = [];
+       var contains = {};
+       for(var i in to){
+           if(contains[to[i]]){
+              continue;
+           }
+           contains[to[i]] = true;
+           toIds.push(objectID.createFromHexString(to[i]));
+       }
+       userDao.addNotifications(toIds,commentId);
+    }
+};
+
+
 
 module.exports = {
     login : login,
@@ -121,5 +139,6 @@ module.exports = {
     jscode2session : jscode2session,
     getUserId : getUserId,
     toggleStarCommunity : toggleStarCommunity,
-    toggleStarTopic : toggleStarTopic
+    toggleStarTopic : toggleStarTopic,
+    notifyComment : notifyComment
 };

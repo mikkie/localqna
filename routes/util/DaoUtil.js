@@ -5,10 +5,15 @@ var logger = require('../common/logger'),
 var _handleResult = function(err,docs,callback){
     if(err){
         logger.error(err);
-        callback({error : err});
+        if(typeof callback == 'function'){
+            callback({error : err});
+        }
+
     }
     else{
-        callback(docs);
+        if(typeof callback == 'function') {
+            callback(docs);
+        }
     }
 };
 
@@ -55,6 +60,7 @@ var findByIdOrIds = function(schema,idOrIds,callback,sort){
     }
     find(schema,{_id : condition},callback,sort);
 };
+
 
 var insert = function (data,callback) {
     data.save(function (err,result) {

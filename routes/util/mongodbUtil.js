@@ -17,7 +17,7 @@ var UserSchema = new Schema({
     myReplies : [ObjectId],
     notification : [{
         comment : ObjectId,
-        readed : Boolean
+        readed : {type : Boolean, default : false}
     }],
     score : { type: Number, default : 100},
     settings : {

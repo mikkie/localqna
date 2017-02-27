@@ -32,7 +32,7 @@ var removeStarCommunities = function (userId,communityId,callback) {
 };
 
 var addToStarTopics = function(userId,topicId,callback){
-    DaoUtil.findOneAndUpdate(User,userId,{$push: {"starTopics": objectID.createFromHexString(topicId)}},callback);
+    DaoUtil.findByIdAndUpdate(User,userId,{$push: {"starTopics": objectID.createFromHexString(topicId)}},callback);
 };
 
 var removeStarTopics = function (userId,topicId,callback) {
@@ -40,7 +40,13 @@ var removeStarTopics = function (userId,topicId,callback) {
 };
 
 var addToMyReplies = function(userId,topicId,callback){
-    DaoUtil.findOneAndUpdate(User,userId,{$push: {"myReplies": topicId}},callback);
+    DaoUtil.findByIdAndUpdate(User,userId,{$push: {"myReplies": topicId}},callback);
+};
+
+var addNotifications = function(userIds,commentId){
+    for(var i in userIds){
+        DaoUtil.findByIdAndUpdate(User,userIds[i],{$push: {"notification": {comment : commentId,readed : false}}});
+    }
 };
 
 
@@ -53,5 +59,6 @@ module.exports = {
     removeStarCommunities : removeStarCommunities,
     addToStarTopics : addToStarTopics,
     removeStarTopics : removeStarTopics,
-    addToMyReplies : addToMyReplies
+    addToMyReplies : addToMyReplies,
+    addNotifications : addNotifications
 };

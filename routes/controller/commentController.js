@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var commentService = require('../service/commentService');
+var userService = require('../service/userService');
 var commonUtil = require('../util/commonUtil');
 var validate = require('../common/validate');
 var session = require('../common/session');
@@ -16,6 +17,9 @@ router.post('/createNewComment',function (req, res, next) {
         session.getUserSession(params.sessionId,function (user) {
             if(user){
                 commentService.createComment(params.userInfo,params.content,user,params.topicId,req.body.to,req.body.anonymous,function (doc) {
+                    if(req.body.to && req.body.to.length > 0){
+                       userService.notifyComment(doc._id,req.body.to);
+                    }
                     res.json({"success" : doc});
                 },function(err){
                     res.json({"error" : err});
