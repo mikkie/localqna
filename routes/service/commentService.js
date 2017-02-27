@@ -1,11 +1,13 @@
 var commentDao = require('../dao/commentDao');
 
-var createComment = function(content,ownerId,topicId,to,callback){
+var createComment = function(userInfo,content,ownerId,topicId,to,anonymous,callback){
     var data = {
+        userInfo : userInfo,
         content : content,
         owner : ownerId,
         topic : topicId,
-        to : to
+        to : to,
+        anonymous : anonymous
     };
     commentDao.createComment(data,callback);
 };

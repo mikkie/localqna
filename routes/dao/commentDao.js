@@ -7,7 +7,12 @@ var mongoose = require('../util/mongodbUtil'),
 var createComment = function(data,callback){
     var comment = new Comment();
     comment.content = data.content;
-    comment.owner = objectID.createFromHexString(data.owner);
+    comment.owner = {
+       id : data.owner,
+       name : data.userInfo.nickName,
+       avatar : data.userInfo.avatarUrl
+    };
+    comment.anonymous = data.anonymous;
     comment.topic = objectID.createFromHexString(data.topic);
     if(data.to && data.to.length > 0){
         var toArray = [];

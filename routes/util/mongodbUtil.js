@@ -69,7 +69,11 @@ var TopicSchema = new Schema({
 //4.Comment
 var CommentSchema = new Schema({
     content : {type: String},
-    owner : ObjectId,
+    owner : {
+        id : { type: ObjectId,index : true},
+        name : {type : String},
+        avatar : {type : String}
+    },
     topic : ObjectId,
     to : [ObjectId],
     createDate : { type: Date, default: Date.now },
