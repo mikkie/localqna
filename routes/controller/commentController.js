@@ -38,8 +38,8 @@ router.get('/findCommentsByTopicId',function (req, res, next) {
        topicId : req.query.topicId
    };
    if(validate.requirePass(res,params)){
-       commentService.findCommentsByTopicId(params.topicId,function(doc){
-           res.json({"success" : doc});
+       commentService.findCommentsByTopicId(params.topicId,function(docs){
+           res.json({"success" : docs});
        });
    }
 });

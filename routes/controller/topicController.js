@@ -56,8 +56,8 @@ router.get('/getTopicById',function(req, res, next){
         topicId : req.query.topicId
     };
     if(validate.requirePass(res,params)){
-        topicService.findTopicsById(objectID.createFromHexString(params.topicId),function(result){
-            if(result.error){
+        topicService.findTopicsById(params.topicId,function(result){
+            if(!result || result.error){
                res.json({"error" : result.error});
             }
             else{

@@ -74,7 +74,15 @@ var findTopicsByOwner = function(ownerId,callback){
 };
 
 var findTopicsById = function(ids,callback){
-    topicDao.findTopicsById(ids,callback);
+    topicDao.findTopicsById(ids,function(docs){
+        if(docs && docs.length == 1){
+            var topic = docs[0];
+            topic._doc.createDate = commonUtil.dates.formatTime(topic.createDate);
+            callback(topic);
+            return;
+        }
+        callback(null);
+    });
 };
 
 

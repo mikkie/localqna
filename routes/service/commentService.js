@@ -1,5 +1,6 @@
 var commentDao = require('../dao/commentDao');
 var userDao = require('../dao/userDao');
+var commonUtil = require('../util/commonUtil');
 
 var createComment = function(userInfo,content,user,topicId,to,anonymous,callback,errorHandler){
     var data = {
@@ -34,7 +35,14 @@ var createComment = function(userInfo,content,user,topicId,to,anonymous,callback
 
 
 var findCommentsByTopicId = function(topicId,callback){
-    commentDao.findCommentsByTopicId(topicId,callback);
+    commentDao.findCommentsByTopicId(topicId,function(comments){
+        if(comments && comments.length > 0){
+            for(var i in comments){
+                comments[i]._doc.createDate = commonUtil.dates.formatTime(comments[i].createDate);
+            }
+        }
+        callback(comments);
+    });
 };
 
 module.exports = {
