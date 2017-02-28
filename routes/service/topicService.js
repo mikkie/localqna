@@ -70,7 +70,14 @@ var findTopicsByCommunity = function(starTopics,communityId,callback){
 };
 
 var findTopicsByOwner = function(ownerId,callback){
-    topicDao.findTopicsByOwner(ownerId,callback);
+    topicDao.findTopicsByOwner(ownerId,function(docs){
+        if(docs && docs.length > 0){
+            for(var i in docs){
+                docs[i]._doc.createDate = commonUtil.dates.formatTime(docs[i].createDate);
+            }
+        }
+        callback(docs);
+    });
 };
 
 var findTopicsById = function(ids,callback){

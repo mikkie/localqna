@@ -10,7 +10,7 @@ var findTopicsByCommunity = function(communityId,callback){
 };
 
 var findTopicsByOwner = function(ownerId,callback){
-    DaoUtil.find(Topic,{"owner" : objectID.createFromHexString(ownerId)},callback,{createDate:-1});
+    DaoUtil.find(Topic,{"owner.id" : ownerId},callback,{createDate:-1});
 };
 
 var createTopic = function(data,callback){

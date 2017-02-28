@@ -69,13 +69,19 @@ router.get('/getTopicById',function(req, res, next){
 
 
 router.get('/findTopicsByOwner',function(req, res, next){
-    var ownerId = req.query.ownerId;
-    if(!ownerId){
-        res.json({"error" : "missing ownerId"});
-    }
-    else{
-        topicService.findTopicsByOwner(ownerId,function(docs){
-            res.json({"success" : docs});
+    var params = {
+        sessionId : req.query.sessionId
+    };
+    if(validate.requirePass(res,params)){
+        session.getUserSession(params.sessionId,function (user) {
+            if(user){
+                topicService.findTopicsByOwner(user._id,function(docs){
+                    res.json({"success" : docs});
+                });
+            }
+            else{
+                res.json({"error" : "user not exists sessionId = " + params.sessionId});
+            }
         });
     }
 });
