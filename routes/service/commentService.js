@@ -46,7 +46,7 @@ var findCommentsByTopicId = function(topicId,callback){
 };
 
 var upOrDownComment = function(commentId,isUp,callback){
-    if(isUp){
+    if(isUp == "true"){
         commentDao.upOrDownComment(commentId,{"up" : 1},callback);
     }
     else{
