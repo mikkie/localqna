@@ -18,7 +18,7 @@ router.post('/createNewComment',function (req, res, next) {
             if(user){
                 commentService.createComment(params.userInfo,params.content,user,params.topicId,req.body.to,req.body.anonymous,function (doc) {
                     if(req.body.to && req.body.to.length > 0){
-                       userService.notifyComment(doc._id,req.body.to);
+                       userService.notifyComment(params.topicId,doc._id,req.body.to);
                     }
                     res.json({"success" : doc});
                 },function(err){

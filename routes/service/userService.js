@@ -115,7 +115,7 @@ var toggleStarTopic = function (topicId,sessionId,isAdd,callback) {
 };
 
 
-var notifyComment = function(commentId,to){
+var notifyComment = function(topicId,commentId,to){
     if(to && to.length > 0){
        var toIds = [];
        var contains = {};
@@ -126,7 +126,7 @@ var notifyComment = function(commentId,to){
            contains[to[i]] = true;
            toIds.push(objectID.createFromHexString(to[i]));
        }
-       userDao.addNotifications(toIds,commentId);
+       userDao.addNotifications(objectID.createFromHexString(topicId),toIds,commentId);
     }
 };
 

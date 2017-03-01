@@ -43,9 +43,9 @@ var addToMyReplies = function(userId,topicId,callback){
     DaoUtil.findByIdAndUpdate(User,userId,{$push: {"myReplies": topicId}},callback);
 };
 
-var addNotifications = function(userIds,commentId){
+var addNotifications = function(topicId,userIds,commentId){
     for(var i in userIds){
-        DaoUtil.findByIdAndUpdate(User,userIds[i],{$push: {"notification": {comment : commentId,readed : false}}});
+        DaoUtil.findByIdAndUpdate(User,userIds[i],{$push: {"notification": {topic : topicId,comment : commentId,readed : false}}});
     }
 };
 

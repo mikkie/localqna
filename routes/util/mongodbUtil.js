@@ -16,6 +16,7 @@ var UserSchema = new Schema({
     starTopics : [ObjectId],
     myReplies : [ObjectId],
     notification : [{
+        topic : ObjectId,
         comment : ObjectId,
         readed : {type : Boolean, default : false}
     }],

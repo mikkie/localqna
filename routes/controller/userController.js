@@ -32,6 +32,40 @@ router.get('/findStarCommunitiesByOwner', function (req, res, next) {
     }
 });
 
+router.get('/findAtmeTopics', function (req, res, next) {
+    var params = {
+        sessionId: req.query.sessionId
+    };
+    if (validate.requirePass(params)) {
+        session.getUserSession(params.sessionId, function (user) {
+            if(user){
+                var notifications = user.notification;
+                var newNotificationTopics = [];
+                if(notifications && notifications.length > 0){
+                    for(var i in notifications){
+                        if(notifications[i].readed == false && notifications[i].topic){
+                            newNotificationTopics.push(notifications[i].topic);
+                        }
+                    }
+                    if(newNotificationTopics.length > 0){
+                        topicService.findTopicsById(newNotificationTopics, function (docs) {
+                            res.json({"success": docs});
+                        });
+                    }
+                    else{
+                        res.json({"success": []});
+                    }
+                }
+                else{
+                    res.json({"success": []});
+                }
+            }
+            else{
+                res.json({"error": "user not exists, sessionId = " + params.sessionId});
+            }
+        });
+    }
+});
 
 router.get('/findUserRepliesTopics', function (req, res, next) {
     var params = {
