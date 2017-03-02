@@ -9,12 +9,13 @@ var validate = require('../common/validate');
 router.post('/loadIndexPageCommunities', function(req, res, next) {
     var params = {
         loc : req.body.location,
-        sessionId : req.body.sessionId
+        sessionId : req.body.sessionId,
+        distance : req.body.distance
     };
     if(validate.requirePass(res,params)){
         session.getUserSession(params.sessionId,function (user) {
             if(user){
-                loadIndexPageCommunities(params.loc,user.starCommunities,res);
+                loadIndexPageCommunities(params.loc,parseInt(params.distance),user.starCommunities,res);
             }
             else{
                 res.json({"error" : "user not exists: " + params.sessionId});
@@ -59,8 +60,8 @@ router.post('/createNewCommunity',function (req, res, next) {
 });
 
 
-var loadIndexPageCommunities = function(loc,starCommunities,res){
-    communityService.findTheNearByAndRecommendCommunities(loc,starCommunities,function(docs){
+var loadIndexPageCommunities = function(loc,distance,starCommunities,res){
+    communityService.findTheNearByAndRecommendCommunities(loc,distance,starCommunities,function(docs){
         res.json({"success" : docs});
     });
 };

@@ -10,7 +10,7 @@ var createSession = function (userId,callback) {
      var sessionId = common.string.guid();
      var expire = new Date(new Date().getTime() + conf.server.session_time_out);
      DaoUtil.findOneAndUpdate(User,{_id : userId},{$set:{"session.id":sessionId,"session.value":{},"session.expire" : expire}},function (user) {
-         callback(user.session.id);
+         callback(user);
      });
 };
 

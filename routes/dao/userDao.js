@@ -49,6 +49,10 @@ var addNotifications = function(topicId,userIds,commentId){
     }
 };
 
+var updateSettings = function(sessionId,settings,callback){
+    DaoUtil.update(User,{"session.id" : sessionId},{"settings" : settings},callback);
+};
+
 
 module.exports = {
     createUser : createUser,
@@ -60,5 +64,6 @@ module.exports = {
     addToStarTopics : addToStarTopics,
     removeStarTopics : removeStarTopics,
     addToMyReplies : addToMyReplies,
-    addNotifications : addNotifications
+    addNotifications : addNotifications,
+    updateSettings : updateSettings
 };

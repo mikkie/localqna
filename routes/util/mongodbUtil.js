@@ -22,6 +22,7 @@ var UserSchema = new Schema({
     }],
     score : { type: Number, default : 100},
     settings : {
+       distance : { type: Number , default : 3 }
     },
     session : {
         id : {type : String, index : true},
@@ -88,9 +89,6 @@ var CommentSchema = new Schema({
 var GlobalSettingsSchema = new Schema({
     topic : {
         topicClosePeriod : { type: Number }
-    },
-    lbs : {
-        maxDistances : {type: Number, default : 5000}
     }
 });
 

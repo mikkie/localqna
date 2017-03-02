@@ -11,9 +11,6 @@ var globalConf = {
     settings : {
         topic : {
             topicClosePeriod : 15 * 60 * 1000
-        },
-        lbs : {
-            maxDistances : 5000
         }
     },
     service : {

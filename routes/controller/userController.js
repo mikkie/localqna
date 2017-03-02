@@ -7,6 +7,22 @@ var commonUtil = require('../util/commonUtil');
 var validate = require('../common/validate');
 var session = require('../common/session');
 
+router.get('/findUser', function (req, res, next) {
+    var params = {
+        sessionId: req.query.sessionId
+    };
+    if (validate.requirePass(params)) {
+        session.getUserSession(params.sessionId, function (user) {
+            if (user) {
+                res.json({"success": user});
+            }
+            else {
+                res.json({"error": "user not exists, sessionId = " + params.sessionId});
+            }
+        });
+    }
+});
+
 
 router.get('/findStarCommunitiesByOwner', function (req, res, next) {
     var params = {
@@ -126,8 +142,11 @@ router.post('/login', function (req, res, next) {
             var openId = resm.openid;
             var session_key = resm.session_key;
             if (openId && session_key) {
-                userService.login(openId, session_key, function (sessionId) {
-                    res.json({"success": sessionId});
+                userService.login(openId, session_key, function (user) {
+                    res.json({"success": {
+                        settings : user.settings,
+                        sessionId : user.session.id
+                    }});
                 });
             }
             else {
@@ -187,5 +206,21 @@ router.post('/toggleStarTopics', function (req, res, next) {
     }
 });
 
+
+router.post('/updateSettings', function (req, res, next) {
+    var params = {
+        sessionId: req.body.sessionId
+    };
+    if (validate.requirePass(res, params)) {
+        userService.updateSettings(params.sessionId,req.body.settings,function(result){
+            if(result.error){
+                res.json({"error": "update user setting failed"});
+            }
+            else{
+                res.json({"success": result});
+            }
+        });
+    }
+});
 
 module.exports = router;

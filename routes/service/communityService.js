@@ -21,21 +21,21 @@ var tagCommunityStar = function (starCommunityIds, communities) {
 };
 
 
-var findTheNearByAndRecommendCommunities = function (loc, starCommunities, callback) {
+var findTheNearByAndRecommendCommunities = function (loc,distance, starCommunities, callback) {
     var res = {
         near: [],
         recommend: []
     };
-    Q.allSettled([_findTheNearByCommunities(loc, res), _findRecommendCommunities(res)]).then(function () {
+    Q.allSettled([_findTheNearByCommunities(loc,distance, res), _findRecommendCommunities(res)]).then(function () {
         tagCommunityStar(starCommunities, res.near);
         tagCommunityStar(starCommunities, res.recommend);
         callback(res);
     });
 };
 
-var _findTheNearByCommunities = function (loc, result) {
+var _findTheNearByCommunities = function (loc,distance, result) {
     var deferred = Q.defer();
-    communityDao.findCommunitiesByDistance(loc, conf.settings.lbs.maxDistances, function (docs) {
+    communityDao.findCommunitiesByDistance(loc, distance, function (docs) {
         result.near = docs;
         deferred.resolve();
     });

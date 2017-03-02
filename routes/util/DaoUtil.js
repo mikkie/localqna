@@ -68,6 +68,12 @@ var insert = function (data,callback) {
     });
 };
 
+var update = function(schema,condition,update,callback){
+    schema.update(condition,update,function (err,result) {
+        _handleResult(err,result,callback);
+    });
+};
+
 
 module.exports = {
     find : find,
@@ -75,5 +81,6 @@ module.exports = {
     insert : insert,
     findByIdOrIds : findByIdOrIds,
     findOneAndUpdate : findOneAndUpdate,
-    findByIdAndUpdate : findByIdAndUpdate
+    findByIdAndUpdate : findByIdAndUpdate,
+    update : update
 };

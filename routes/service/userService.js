@@ -130,7 +130,9 @@ var notifyComment = function(topicId,commentId,to){
     }
 };
 
-
+var updateSettings = function(sessionId,settings,callback){
+    userDao.updateSettings(sessionId,settings,callback);
+};
 
 module.exports = {
     login : login,
@@ -140,5 +142,6 @@ module.exports = {
     getUserId : getUserId,
     toggleStarCommunity : toggleStarCommunity,
     toggleStarTopic : toggleStarTopic,
-    notifyComment : notifyComment
+    notifyComment : notifyComment,
+    updateSettings : updateSettings
 };
