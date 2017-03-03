@@ -3,6 +3,7 @@ var wxBizDataCrypt = require('../util/WXBizDataCrypt');
 var conf = require('../conf/conf');
 var commonUtil = require('../util/commonUtil');
 var session = require('../common/session');
+var extend = require('extend');
 var mongo = require('mongodb'),
     objectID = mongo.ObjectID;
 
@@ -131,7 +132,22 @@ var notifyComment = function(topicId,commentId,to){
 };
 
 var updateSettings = function(sessionId,settings,callback){
-    userDao.updateSettings(sessionId,settings,callback);
+    session.getUserSession(sessionId,function (user) {
+        if(user){
+            var newSettings = extend(true,user.settings.toObject(),settings);
+            userDao.updateSettings(sessionId,newSettings,function(res){
+                if(res.error){
+                    callback({error : res.error});
+                }
+                else{
+                    callback(newSettings);
+                }
+            });
+        }
+        else{
+            callback({error : "user not exists"});
+        }
+    });
 };
 
 module.exports = {

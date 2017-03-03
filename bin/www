@@ -21,8 +21,8 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-var key = fs.readFileSync('../cert/localqna.key');
-var cert = fs.readFileSync('../cert/localqna.crt');
+var key = fs.readFileSync('./cert/localqna.key');
+var cert = fs.readFileSync('./cert/localqna.crt');
 var https_options = {
     key: key,
     cert: cert,

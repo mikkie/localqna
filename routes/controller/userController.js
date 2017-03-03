@@ -214,7 +214,7 @@ router.post('/updateSettings', function (req, res, next) {
     if (validate.requirePass(res, params)) {
         userService.updateSettings(params.sessionId,req.body.settings,function(result){
             if(result.error){
-                res.json({"error": "update user setting failed"});
+                res.json({"error": "update user setting failed " + result.error});
             }
             else{
                 res.json({"success": result});
