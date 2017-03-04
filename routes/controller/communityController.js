@@ -15,7 +15,7 @@ router.post('/loadIndexPageCommunities', function(req, res, next) {
     if(validate.requirePass(res,params)){
         session.getUserSession(params.sessionId,function (user) {
             if(user){
-                loadIndexPageCommunities(params.loc,parseInt(params.distance),user.starCommunities,res);
+                loadIndexPageCommunities(params.loc,parseInt(params.distance) * 1000,user.starCommunities,res);
             }
             else{
                 res.json({"error" : "user not exists: " + params.sessionId});
