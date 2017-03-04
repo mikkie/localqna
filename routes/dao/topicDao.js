@@ -10,7 +10,7 @@ var findTopicsByCommunity = function(communityId,callback){
 };
 
 var findTopicsByOwner = function(ownerId,callback){
-    DaoUtil.find(Topic,{"owner.id" : ownerId},callback,{createDate:-1});
+    DaoUtil.find(Topic,{"owner.id" : ownerId,"expireDate" : {$gt : new Date()}},callback,{createDate:-1});
 };
 
 var createTopic = function(data,callback){
@@ -31,7 +31,18 @@ var createTopic = function(data,callback){
 };
 
 var findTopicsById = function(id,callback){
-    DaoUtil.findByIdOrIds(Topic,id,callback,{createDate:-1});
+    var condition = {};
+    if(id instanceof Array){
+        var idArray = [];
+        for(var i = 0;i < id.length;i++){
+            idArray.push(id[i]);
+        }
+        condition = {$in : idArray};
+    }
+    else{
+        condition = objectID.createFromHexString(id)
+    }
+    DaoUtil.find(Topic,{_id : condition,"expireDate" : {$gt : new Date()}},callback,{createDate:-1});
 };
 
 
