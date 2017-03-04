@@ -94,10 +94,17 @@ var findTopicsById = function(ids,callback){
     });
 };
 
+var addComment = function(comment,callback){
+    if(!comment.error){
+        var topicId = comment.topic;
+        topicDao.addComment(topicId,{"commentId" : comment._id,"userName" : comment.owner.name,"userId" : comment.owner.id},callback);
+    }
+};
 
 module.exports = {
     createTopic : createTopic,
     findTopicsByCommunity : findTopicsByCommunity,
     findTopicsByOwner : findTopicsByOwner,
-    findTopicsById : findTopicsById
+    findTopicsById : findTopicsById,
+    addComment : addComment
 };

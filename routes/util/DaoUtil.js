@@ -40,7 +40,7 @@ var findOneAndUpdate = function (schema,conditions,update,callback) {
 };
 
 var findByIdAndUpdate = function (schema,id,update,callback) {
-    schema.findOneAndUpdate(id,update,{new : true},function(err,doc){
+    schema.findByIdAndUpdate(id,update,{new : true},function(err,doc){
         _handleResult(err,doc,callback);
     });
 };

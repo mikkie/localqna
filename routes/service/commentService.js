@@ -56,9 +56,35 @@ var upOrDownComment = function (commentId, isUp, callback) {
     }
 };
 
+var parseContent = function (content, topic) {
+    var toIds = [];
+    var filter = {};
+    var regex = new RegExp('@' + topic.owner.name);
+    if (regex.test(content)) {
+        toIds.push(topic.owner.id);
+        filter[topic.owner.id.toString()] = true;
+    }
+    var comments = topic.comments;
+    if (comments && comments.length > 0) {
+        for (var i = 0; i < comments.length; i++) {
+            var idString = comments[i].userId.toString();
+            if (filter[idString]) {
+                continue;
+            }
+            if (new RegExp('@' + comments[i].userName).test(content)) {
+                toIds.push(comments[i].userId);
+                filter[idString] = true;
+            }
+        }
+    }
+    return toIds;
+
+};
+
 
 module.exports = {
     createComment: createComment,
     findCommentsByTopicId: findCommentsByTopicId,
-    upOrDownComment: upOrDownComment
+    upOrDownComment: upOrDownComment,
+    parseContent: parseContent
 };

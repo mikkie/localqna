@@ -59,7 +59,11 @@ var TopicSchema = new Schema({
        id : ObjectId,
        name : String
     },
-    comments : [ObjectId],
+    comments : [{
+       commentId : ObjectId,
+       userName : {type : String},
+       userId : ObjectId
+    }],
     anonymous : {type: Boolean, default : false},
     createDate : { type: Date, default: Date.now },
     expireDate : { type: Date },

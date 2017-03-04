@@ -34,9 +34,15 @@ var findTopicsById = function(id,callback){
     DaoUtil.findByIdOrIds(Topic,id,callback,{createDate:-1});
 };
 
+
+var addComment = function(topicId,update,callback){
+    DaoUtil.findByIdAndUpdate(Topic,topicId,{$push : {"comments" : update}},callback);
+};
+
 module.exports = {
     createTopic : createTopic,
     findTopicsByCommunity : findTopicsByCommunity,
     findTopicsByOwner : findTopicsByOwner,
-    findTopicsById : findTopicsById
+    findTopicsById : findTopicsById,
+    addComment : addComment
 };
