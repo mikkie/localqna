@@ -36,14 +36,29 @@ var createComment = function (userInfo, content, user, topicId, to, anonymous, c
 };
 
 
-var findCommentsByTopicId = function (topicId, callback) {
+var findCommentsByTopicId = function (topicId,userId,callback) {
     commentDao.findCommentsByTopicId(topicId, function (comments) {
+        var result = [];
         if (comments && comments.length > 0) {
             for (var i in comments) {
+                var to = comments[i].to;
+                if(to && to.length > 0){
+                    var find = false;
+                    for(var i in to){
+                        if(to[i].toString() == userId.toString()){
+                            find = true;
+                            break;
+                        }
+                    }
+                    if(!find){
+                        continue;
+                    }
+                }
                 comments[i]._doc.createDate = commonUtil.dates.formatTime(comments[i].createDate);
+                result.push(comments[i]);
             }
         }
-        callback(comments);
+        callback(result);
     });
 };
 
