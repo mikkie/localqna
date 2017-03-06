@@ -29,6 +29,22 @@ var findTheNearByAndRecommendCommunities = function (loc,distance, starCommuniti
     Q.allSettled([_findTheNearByCommunities(loc,distance, res), _findRecommendCommunities(res)]).then(function () {
         tagCommunityStar(starCommunities, res.near);
         tagCommunityStar(starCommunities, res.recommend);
+        if(res.near.length > 0 && res.recommend.length > 0){
+            var newNear = [];
+            for(var i in res.recommend){
+               var find = false;
+               for(var j in res.near){
+                   if(res.near[j]._id.toString() == res.recommend[i]._id.toString()){
+                       find = true;
+                       break;
+                   }
+               }
+               if(!find){
+                   newNear.push(res.recommend[i]);
+               }
+            }
+            res.recommend = newNear;
+        }
         callback(res);
     });
 };
