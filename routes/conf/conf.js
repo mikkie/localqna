@@ -11,7 +11,8 @@ var globalConf = {
     settings : {
         topic : {
             topicClosePeriod : 15 * 60 * 1000
-        }
+        },
+        readMe : '1.使用@xxx评论时，本条评论对其他用户不可见。'
     },
     service : {
        wxApiHost : 'api.weixin.qq.com',
