@@ -3,7 +3,7 @@ var mongoose = require('mongoose'),
     ObjectId = Schema.ObjectId;
 mongoose.Promise = global.Promise;
 require('mongoose-geojson-schema');
-mongoose.connect('mongodb://localhost/localqnaxm');
+mongoose.connect('mongodb://aqualocalqna.com:Navy10150619870@localhost/localqnaxm');
 
 //define tables
 
