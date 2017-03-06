@@ -9,6 +9,7 @@ var debug = require('debug')('localqna:server');
 var https = require('https');
 var fs = require('fs');
 var constants = require('constants');
+var path = require('path');
 
 /**
  * Get port from environment and store in Express.
@@ -21,8 +22,8 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-var key = fs.readFileSync('../cert/localqna.key');
-var cert = fs.readFileSync('../cert/localqna.crt');
+var key = fs.readFileSync(path.join(__dirname,'..','cert','localqna.key'));
+var cert = fs.readFileSync(path.join(__dirname,'..','cert','localqna.crt'));
 var https_options = {
     key: key,
     cert: cert,

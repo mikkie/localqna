@@ -87,4 +87,11 @@ router.get('/findTopicsByOwner',function(req, res, next){
 });
 
 
+router.get('/findTopicsOrderByExpireDate',function(req, res, next){
+    topicService.findTopicsOrderByExpireDate(function(docs){
+        res.json({"success" : docs});
+    });
+});
+
+
 module.exports = router;

@@ -42,11 +42,19 @@ router.post('/createNewComment',function (req, res, next) {
 
 router.get('/findCommentsByTopicId',function (req, res, next) {
    var params = {
-       topicId : req.query.topicId
+       topicId : req.query.topicId,
+       sessionId : req.query.sessionId
    };
    if(validate.requirePass(res,params)){
-       commentService.findCommentsByTopicId(params.topicId,function(docs){
-           res.json({"success" : docs});
+       session.getUserSession(params.sessionId,function (user) {
+           if(user){
+               commentService.findCommentsByTopicId(params.topicId,user._id,function(docs){
+                   res.json({"success" : docs});
+               });
+           }
+           else{
+               res.json({"error" : "user not exists sessionId = " + params.sessionId});
+           }
        });
    }
 });

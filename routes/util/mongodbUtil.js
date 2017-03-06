@@ -93,7 +93,8 @@ var CommentSchema = new Schema({
 var GlobalSettingsSchema = new Schema({
     topic : {
         topicClosePeriod : { type: Number }
-    }
+    },
+    readMe : {type: String}
 });
 
 mongoose.model('User',UserSchema);

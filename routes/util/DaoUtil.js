@@ -74,6 +74,10 @@ var update = function(schema,condition,update,callback){
     });
 };
 
+var findAll = function(schema,callback,sort){
+    find(schema,{},callback,sort);
+};
+
 
 module.exports = {
     find : find,
@@ -82,5 +86,6 @@ module.exports = {
     findByIdOrIds : findByIdOrIds,
     findOneAndUpdate : findOneAndUpdate,
     findByIdAndUpdate : findByIdAndUpdate,
-    update : update
+    update : update,
+    findAll : findAll
 };
