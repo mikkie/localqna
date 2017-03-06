@@ -101,10 +101,17 @@ var addComment = function(comment,callback){
     }
 };
 
+
+var findTopicsOrderByExpireDate = function(callback){
+    topicDao.findTopicsOrderByExpireDate(callback);
+};
+
+
 module.exports = {
     createTopic : createTopic,
     findTopicsByCommunity : findTopicsByCommunity,
     findTopicsByOwner : findTopicsByOwner,
     findTopicsById : findTopicsById,
-    addComment : addComment
+    addComment : addComment,
+    findTopicsOrderByExpireDate : findTopicsOrderByExpireDate
 };

@@ -50,10 +50,16 @@ var addComment = function(topicId,update,callback){
     DaoUtil.findByIdAndUpdate(Topic,topicId,{$push : {"comments" : update}},callback);
 };
 
+
+var findTopicsOrderByExpireDate = function(callback){
+    DaoUtil.findAll(Topic,callback,{expireDate:1});
+};
+
 module.exports = {
     createTopic : createTopic,
     findTopicsByCommunity : findTopicsByCommunity,
     findTopicsByOwner : findTopicsByOwner,
     findTopicsById : findTopicsById,
-    addComment : addComment
+    addComment : addComment,
+    findTopicsOrderByExpireDate : findTopicsOrderByExpireDate
 };
