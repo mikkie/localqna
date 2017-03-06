@@ -57,10 +57,14 @@ router.get('/findAtmeTopics', function (req, res, next) {
             if(user){
                 var notifications = user.notification;
                 var newNotificationTopics = [];
+                var exists = {};
                 if(notifications && notifications.length > 0){
                     for(var i in notifications){
                         if(notifications[i].readed == false && notifications[i].topic){
-                            newNotificationTopics.push(notifications[i].topic);
+                            if(!exists[notifications[i].topic.toString()]){
+                                newNotificationTopics.push(notifications[i].topic);
+                                exists[notifications[i].topic.toString()] = true;
+                            }
                         }
                     }
                     if(newNotificationTopics.length > 0){
