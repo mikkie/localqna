@@ -75,14 +75,14 @@ var findCommunitiesByName = function (name, starCommunities, callback) {
 };
 
 
-var createCommunity = function (name, loc, sessionId, callback, errHandler) {
+var createCommunity = function (name, loc, userId, callback, errHandler) {
     var avatar = {
         color: common.color.randomColor(''),
         character: name.substring(0, 1)
     };
     communityDao.createCommunity(name, loc, avatar, function (community) {
         if (community) {
-            userDao.addToMyCommunities(sessionId, community._id, callback);
+            userDao.addToMyCommunities(userId, community._id, callback);
         }
         else {
             var msg = sessionId + ' failed to create community on ' + loc.join(',') + ' name=' + name;

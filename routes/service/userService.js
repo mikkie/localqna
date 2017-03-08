@@ -7,7 +7,7 @@ var extend = require('extend');
 var mongo = require('mongodb'),
     objectID = mongo.ObjectID;
 
-var login = function(wxopenid,session_key,callback){
+var login = function(wxopenid,callback){
     var writeSession = function(user){
         session.createSession(user._id,callback);
     };

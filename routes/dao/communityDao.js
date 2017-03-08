@@ -5,15 +5,15 @@ var mongoose = require('../util/mongodbUtil'),
     objectID = mongo.ObjectID;
 
 var findCommunitiesByDistance = function(centerCoordinates,maxDistanceMeters,callback){
-    DaoUtil.find(Community,{loc:{$near: {$geometry: {type: "Point" ,coordinates: centerCoordinates},$maxDistance: maxDistanceMeters}}},callback);
+    DaoUtil.find(Community,{loc:{$near: {$geometry: {type: "Point" ,coordinates: centerCoordinates},$maxDistance: maxDistanceMeters}},invalid : false},callback);
 };
 
 var findCommunitiesBySystemRecommend = function(callback){
-    DaoUtil.find(Community,{systemRecommendedWeight : {$gt : 0}},callback, {systemRecommendedWeight : -1});
+    DaoUtil.find(Community,{systemRecommendedWeight : {$gt : 0},invalid : false},callback, {systemRecommendedWeight : -1});
 };
 
 var findCommunitiesByName = function (name,callback) {
-    DaoUtil.find(Community,{name : new RegExp(name)},callback);
+    DaoUtil.find(Community,{name : new RegExp(name),invalid : false},callback);
 };
 
 var createCommunity = function (name,loc,avatar,callback) {

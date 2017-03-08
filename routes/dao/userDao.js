@@ -19,8 +19,8 @@ var findUserByWXopenId = function(wxopenid,callback){
     DaoUtil.findOne(User,{wxopenid : wxopenid},callback);
 };
 
-var addToMyCommunities = function(sessionId,communityId,callback){
-    DaoUtil.findOneAndUpdate(User,{"session.id" : sessionId},{$push: {"myCommunities": communityId,"starCommunities": communityId}},callback);
+var addToMyCommunities = function(userId,communityId,callback){
+    DaoUtil.findByIdAndUpdate(User,userId,{$push: {"myCommunities": communityId,"starCommunities": communityId}},callback);
 };
 
 var addToStarCommunities = function (userId,communityId,callback) {

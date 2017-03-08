@@ -144,9 +144,8 @@ router.post('/login', function (req, res, next) {
     if (validate.requirePass(res, params)) {
         userService.jscode2session(params.code, function (resm) {
             var openId = resm.openid;
-            var session_key = resm.session_key;
-            if (openId && session_key) {
-                userService.login(openId, session_key, function (user) {
+            if (openId) {
+                userService.login(openId, function (user) {
                     res.json({"success": {
                         settings : user.settings,
                         sessionId : user.session.id
@@ -162,13 +161,13 @@ router.post('/login', function (req, res, next) {
     }
 });
 
+//!!this api is for internal use only
 router.post('/createUser', function (req, res, next) {
     var params = {
-        openId: req.body.openId,
-        session_key: req.body.session_key
+        openId: req.body.openId
     };
     if (validate.requirePass(res, params)) {
-        userService.login(params.openId, params.session_key, function (sessionId) {
+        userService.login(params.openId, function (sessionId) {
             res.json({"success": sessionId});
         });
     }
