@@ -6,6 +6,7 @@ var topicService = require('../service/topicService');
 var commonUtil = require('../util/commonUtil');
 var validate = require('../common/validate');
 var session = require('../common/session');
+var logger = require('../common/logger');
 
 router.get('/findUser', function (req, res, next) {
     var params = {
@@ -146,6 +147,7 @@ router.post('/login', function (req, res, next) {
             var openId = resm.openid;
             if (openId) {
                 userService.login(openId, function (user) {
+                    logger.info('user login success: sessionId= ' + user.session.id);
                     res.json({"success": {
                         settings : user.settings,
                         sessionId : user.session.id
@@ -153,10 +155,13 @@ router.post('/login', function (req, res, next) {
                 });
             }
             else {
-                res.json({"error": "login fail,can't pass code to session"})
+                var error = "login fail,can't pass code to session, code = " + params.code;
+                logger.error(error);
+                res.json({"error": error})
             }
         }, function (err) {
-            res.json({"error": 'login fail ' + err});
+            var error = 'login fail ' + err;
+            res.json({"error": error});
         });
     }
 });
