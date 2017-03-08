@@ -23,7 +23,8 @@ var globalConf = {
     },
     global : {
         anonymousName : '匿名用户',
-        anonymousAvatar : '../../images/unknown.png'
+        anonymousAvatar : '../../images/unknown.png',
+        maxDistance : 20
     }
 };
 

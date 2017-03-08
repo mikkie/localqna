@@ -4,6 +4,7 @@ var communityService = require('../service/communityService');
 var userService = require('../service/userService');
 var session = require('../common/session');
 var validate = require('../common/validate');
+var conf = require('../conf/conf');
 
 
 router.post('/loadIndexPageCommunities', function(req, res, next) {
@@ -13,6 +14,14 @@ router.post('/loadIndexPageCommunities', function(req, res, next) {
         distance : req.body.distance
     };
     if(validate.requirePass(res,params)){
+        if(isNaN(params.distance) || parseInt(params.distance) > conf.global.maxDistance){
+            res.json({"error" : "distance shoud be number and less than " + conf.global.maxDistance + 'KM'});
+            return;
+        }
+        if(!(params.location instanceof Array) || params.location.length != 2 || isNaN(params.location[0]) || isNaN(params.location[1])){
+            res.json({"error" : "location shoud be array of [longtitude,latitude]"});
+            return;
+        }
         session.getUserSession(params.sessionId,function (user) {
             if(user){
                 loadIndexPageCommunities(params.location,parseInt(params.distance) * 1000,user.starCommunities,res);
@@ -51,6 +60,10 @@ router.post('/createNewCommunity',function (req, res, next) {
         sessionId : req.body.sessionId
     };
     if(validate.requirePass(res,params)){
+        if(!(params.location instanceof Array) || params.location.length != 2 || isNaN(params.location[0]) || isNaN(params.location[1])){
+            res.json({"error" : "location shoud be array of [longtitude,latitude]"});
+            return;
+        }
         session.getUserSession(params.sessionId,function (user) {
             if(user){
                 communityService.createCommunity(params.name,params.location,user._id,function (doc) {
