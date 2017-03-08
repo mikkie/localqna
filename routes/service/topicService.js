@@ -21,7 +21,7 @@ var createTopic = function(userInfo,content,sessionId,communityId,communityName,
                case 'm' : multi = multi * 1000 * 60; break;
                case 'h' : multi = multi * 1000 * 3600; break;
                case 'd' : multi = multi * 1000 * 3600 * 24; break;
-               default  : ;
+               default  : multi = multi * 1000 * 3600; break;
            }
            data.expireDate = new Date(new Date().getTime() + (multi));
            if(data.anonymous){
@@ -39,7 +39,7 @@ var createTopic = function(userInfo,content,sessionId,communityId,communityName,
            });
        }
        else{
-           callback({"error" : "user not exists"});
+           callback({"error" : "user not exists sessionId = " + sessionId});
        }
     });
 };
