@@ -14,8 +14,8 @@ router.post('/loadIndexPageCommunities', function(req, res, next) {
         distance : req.body.distance
     };
     if(validate.requirePass(res,params)){
-        if(isNaN(params.distance) || parseInt(params.distance) > conf.global.maxDistance){
-            res.json({"error" : "distance shoud be number and less than " + conf.global.maxDistance + 'KM'});
+        if(isNaN(params.distance) || parseInt(params.distance) > conf.global.maxDistance || parseInt(params.distance) <= 0){
+            res.json({"error" : "distance should be number, above 0 and less than " + conf.global.maxDistance + 'KM'});
             return;
         }
         if(!(params.location instanceof Array) || params.location.length != 2 || isNaN(params.location[0]) || isNaN(params.location[1])){
