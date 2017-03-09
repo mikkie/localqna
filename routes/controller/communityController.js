@@ -5,6 +5,7 @@ var userService = require('../service/userService');
 var session = require('../common/session');
 var validate = require('../common/validate');
 var conf = require('../conf/conf');
+var logger = require('../common/logger');
 
 
 router.post('/loadIndexPageCommunities', function(req, res, next) {
@@ -15,11 +16,15 @@ router.post('/loadIndexPageCommunities', function(req, res, next) {
     };
     if(validate.requirePass(res,params)){
         if(isNaN(params.distance) || parseInt(params.distance) > conf.global.maxDistance || parseInt(params.distance) <= 0){
-            res.json({"error" : "distance should be number, above 0 and less than " + conf.global.maxDistance + 'KM'});
+            var error = "distance should be number, above 0 and less than " + conf.global.maxDistance + 'KM';
+            logger.error(error);
+            res.json({"error" : error});
             return;
         }
         if(!(params.location instanceof Array) || params.location.length != 2 || isNaN(params.location[0]) || isNaN(params.location[1])){
-            res.json({"error" : "location shoud be array of [longtitude,latitude]"});
+            var error = "location shoud be array of [longtitude,latitude]";
+            logger.error(error);
+            res.json({"error" : error});
             return;
         }
         session.getUserSession(params.sessionId,function (user) {
@@ -61,7 +66,9 @@ router.post('/createNewCommunity',function (req, res, next) {
     };
     if(validate.requirePass(res,params)){
         if(!(params.location instanceof Array) || params.location.length != 2 || isNaN(params.location[0]) || isNaN(params.location[1])){
-            res.json({"error" : "location shoud be array of [longtitude,latitude]"});
+            var error = "location shoud be array of [longtitude,latitude]";
+            logger.error(error);
+            res.json({"error" : error});
             return;
         }
         session.getUserSession(params.sessionId,function (user) {
@@ -69,6 +76,7 @@ router.post('/createNewCommunity',function (req, res, next) {
                 communityService.createCommunity(params.name,params.location,user._id,function (doc) {
                     res.json({"success" : doc});
                 },function(err){
+                    logger.error('create community error : ' + err);
                     res.json({"error" : err});
                 });
             }

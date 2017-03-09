@@ -155,12 +155,13 @@ router.post('/login', function (req, res, next) {
                 });
             }
             else {
-                var error = "login fail,can't pass code to session, code = " + params.code;
+                var error = "login fail,can't convert code to session, code = " + params.code;
                 logger.error(error);
                 res.json({"error": error})
             }
         }, function (err) {
             var error = 'login fail ' + err;
+            logger.error(error);
             res.json({"error": error});
         });
     }

@@ -4,6 +4,7 @@ var mongoose = require('../util/mongodbUtil'),
     mongo = require('mongodb'),
     conf = require('../conf/conf'),
     common = require('../util/commonUtil'),
+    logger = require('./logger'),
     objectID = mongo.ObjectID;
 
 var createSession = function (userId,callback) {
@@ -17,11 +18,13 @@ var createSession = function (userId,callback) {
 var getUserSession = function (sessionId,callback) {
     DaoUtil.findOne(User,{"session.id":sessionId},function (user) {
         if(!user || user.error){
+           logger.error('user not exists, sessionId = ' + sessionId);
            callback(null);
            return;
         }
         else if(user.session && user.session.expire){
            if(user.session.expire.getTime() > new Date().getTime()){
+               logger.warn('user session expired, sessionId = ' + sessionId);
                callback(user);
                return;
            }
