@@ -9,7 +9,7 @@ var createTopic = function(userInfo,content,sessionId,communityId,communityName,
     session.getUserSession(sessionId,function (user) {
        if(user){
            if(user.settings.permission && user.settings.permission.community != 'rw'){
-               callback({"401" : "????????????????Tel:" + conf.settings.contact.tel});
+               callback({"401" : "您暂无权限创建话题，请联系管理员Tel:" + conf.settings.contact.tel});
                return;
            }
            var data = {

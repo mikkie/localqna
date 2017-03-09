@@ -20,7 +20,7 @@ router.post('/createNewComment',function (req, res, next) {
         session.getUserSession(params.sessionId,function (user) {
             if(user){
                 if(user.settings.permission && user.settings.permission.community != 'rw'){
-                    callback({"401" : "????????????????Tel:" + conf.settings.contact.tel});
+                    res.json({"401" : "您暂无权限评论话题，请联系管理员Tel:" + conf.settings.contact.tel});
                     return;
                 }
                 commentService.createComment(params.userInfo,params.content,user,params.topicId,req.body.to,req.body.anonymous,function (doc) {

@@ -74,7 +74,7 @@ router.post('/createNewCommunity',function (req, res, next) {
         session.getUserSession(params.sessionId,function (user) {
             if(user){
                 if(user.settings.permission && user.settings.permission.community != 'rw'){
-                    res.json({"401" : '?????????????????Tel:' + conf.settings.contact.tel});
+                    res.json({"401" : '您暂无权限创建社区，请联系管理员Tel:' + conf.settings.contact.tel});
                     return;
                 }
                 communityService.createCommunity(params.name,params.location,user._id,function (doc) {

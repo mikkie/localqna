@@ -24,11 +24,11 @@ var getUserSession = function (sessionId,callback) {
         }
         else if(user.session && user.session.expire){
            if(user.session.expire.getTime() > new Date().getTime()){
-               logger.warn('user session expired, sessionId = ' + sessionId);
                callback(user);
                return;
            }
         }
+        logger.warn('user session expired, sessionId = ' + sessionId);
         callback(null);
     });
 };
