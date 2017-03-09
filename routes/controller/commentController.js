@@ -6,6 +6,7 @@ var topicService = require('../service/topicService');
 var commonUtil = require('../util/commonUtil');
 var validate = require('../common/validate');
 var session = require('../common/session');
+var conf = require('../conf/conf');
 
 
 router.post('/createNewComment',function (req, res, next) {
@@ -18,6 +19,10 @@ router.post('/createNewComment',function (req, res, next) {
     if(validate.requirePass(res,params)){
         session.getUserSession(params.sessionId,function (user) {
             if(user){
+                if(user.settings.permission && user.settings.permission.community != 'rw'){
+                    callback({"401" : "????????????????Tel:" + conf.settings.contact.tel});
+                    return;
+                }
                 commentService.createComment(params.userInfo,params.content,user,params.topicId,req.body.to,req.body.anonymous,function (doc) {
                     res.json({"success" : doc});
                     topicService.addComment(doc,function(topic){

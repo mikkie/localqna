@@ -22,7 +22,12 @@ var UserSchema = new Schema({
     }],
     score : { type: Number, default : 100},
     settings : {
-       distance : { type: Number , default : 3 }
+       distance : { type: Number , default : 3 },
+       permission : {
+           community : {type: String , default : 'r'},
+           topic : {type: String , default : 'r'},
+           comment : {type: String , default : 'r'}
+       }
     },
     session : {
         id : {type : String, index : true},

@@ -8,6 +8,10 @@ var commonUtil = require('../util/commonUtil');
 var createTopic = function(userInfo,content,sessionId,communityId,communityName,expireLength,expireDateUnit,anonymous,callback){
     session.getUserSession(sessionId,function (user) {
        if(user){
+           if(user.settings.permission && user.settings.permission.community != 'rw'){
+               callback({"401" : "????????????????Tel:" + conf.settings.contact.tel});
+               return;
+           }
            var data = {
                content : content,
                owner : user._id,

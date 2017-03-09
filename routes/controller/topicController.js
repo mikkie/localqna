@@ -21,11 +21,11 @@ router.post('/createNewTopic',function (req, res, next) {
     };
     if(validate.requirePass(res,params)){
         topicService.createTopic(params.userInfo,params.content,params.sessionId,params.communityId,params.communityName,params.expireLength,params.expireDateUnit,req.body.anonymous,function (doc) {
-            if(!doc.error){
+            if(!doc.error && !doc["401"]){
                 res.json({"success" : doc});
             }
             else{
-                res.json(doc.error);
+                res.json(doc);
             }
         });
     }
