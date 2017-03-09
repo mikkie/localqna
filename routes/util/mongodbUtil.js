@@ -94,7 +94,8 @@ var GlobalSettingsSchema = new Schema({
     topic : {
         topicClosePeriod : { type: Number }
     },
-    readMe : {type: String}
+    readMe : {type: String},
+    about : {type: String}
 });
 
 mongoose.model('User',UserSchema);
