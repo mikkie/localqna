@@ -54,6 +54,13 @@ router.get('/findCommentsByTopicId',function (req, res, next) {
        session.getUserSession(params.sessionId,function (user) {
            if(user){
                commentService.findCommentsByTopicId(params.topicId,user._id,function(docs){
+                   if(docs && docs.length > 0){
+                      for(var i = 0; i < docs.length; i++){
+                          if(user._id.toString() == docs[i].owner.id.toString()){
+                              docs[i].ownByCurrentUser = true;
+                          }
+                      }
+                   }
                    res.json({"success" : docs});
                });
            }

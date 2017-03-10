@@ -53,15 +53,26 @@ router.get('/findTopicsByCommunityId',function (req, res, next) {
 
 router.get('/getTopicById',function(req, res, next){
     var params = {
-        topicId : req.query.topicId
+        topicId : req.query.topicId,
+        sessionId : req.query.sessionId
     };
     if(validate.requirePass(res,params)){
-        topicService.findTopicsById(params.topicId,function(result){
-            if(!result || result.error){
-               res.json({"error" : result.error});
+        session.getUserSession(params.sessionId,function (user) {
+            if(user){
+                topicService.findTopicsById(params.topicId,function(result){
+                    if(!result || result.error){
+                        res.json({"error" : result.error});
+                    }
+                    else{
+                        if(user._id.toString() == result.owner.id.toString()){
+                            result.ownByCurrentUser = true;
+                        }
+                        res.json({"success" : result});
+                    }
+                });
             }
             else{
-               res.json({"success" : result});
+                res.json({"error" : "user not exists: " + params.sessionId});
             }
         });
     }
