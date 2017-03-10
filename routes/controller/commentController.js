@@ -57,7 +57,7 @@ router.get('/findCommentsByTopicId',function (req, res, next) {
                    if(docs && docs.length > 0){
                       for(var i = 0; i < docs.length; i++){
                           if(user._id.toString() == docs[i].owner.id.toString()){
-                              docs[i].ownByCurrentUser = true;
+                              docs[i]._doc.ownByCurrentUser = true;
                           }
                       }
                    }

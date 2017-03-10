@@ -114,8 +114,8 @@ var findTopicsNoCommentsNotExpired = function(callback){
 var deleteTopic = function(userId,topicIdStr,callback){
     topicDao.findTopicsById(topicIdStr,function(res){
         if(!res.error){
-            if(res.owner.id.toString() == userId.toString()){
-                topicDao.deleteTopic(res._id,callback);
+            if(res[0].owner.id.toString() == userId.toString()){
+                topicDao.deleteTopic(res[0]._id,callback);
             }
             else{
                 callback({"401" : "无权限删除该话题"});

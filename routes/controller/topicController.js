@@ -64,8 +64,8 @@ router.get('/getTopicById',function(req, res, next){
                         res.json({"error" : result.error});
                     }
                     else{
-                        if(user._id.toString() == result.owner.id.toString()){
-                            result.ownByCurrentUser = true;
+                        if(user._id.toString() == result[0].owner.id.toString()){
+                            result[0]._doc.ownByCurrentUser = true;
                         }
                         res.json({"success" : result});
                     }

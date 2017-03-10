@@ -100,11 +100,11 @@ var parseContent = function (content, topic) {
 var deleteComment = function(userId,commentIdStr,callback){
     commentDao.findCommentById(commentIdStr,function(res){
         if(!res.error){
-            if(res.owner.id.toString() == userId.toString()){
-                commentDao.deleteComment(res._id,callback);
+            if(res[0].owner.id.toString() == userId.toString()){
+                commentDao.deleteComment(res[0]._id,callback);
             }
             else{
-                callback({"401" : "????????"});
+                callback({"401" : "无权限删除该评论"});
             }
         }
         else{

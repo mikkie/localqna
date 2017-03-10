@@ -41,7 +41,7 @@ var upOrDownComment = function(commentId,inc,callback){
 };
 
 var findCommentById = function(commentIdStr,callback){
-    DaoUtil.findByIdOrIds(Comment,objectID.createFromHexString(commentIdStr),callback);
+    DaoUtil.findByIdOrIds(Comment,commentIdStr,callback);
 };
 
 var deleteComment = function(commentId,callback){
