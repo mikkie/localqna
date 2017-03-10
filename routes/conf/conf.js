@@ -1,7 +1,11 @@
 var globalConf = {
     app : {
         appId : 'wx244fbba8964a69b3',
-        appSecret : '0f5cbb94a134f9b847e90f3419b509a4'
+        appSecret : '0f5cbb94a134f9b847e90f3419b509a4',
+        mongodb : {
+            user : '',
+            password : ''
+        }
     },
     logger : {
         dirPath : '/logs',

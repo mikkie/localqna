@@ -1,9 +1,17 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
+    conf = require('../conf/conf'),
     ObjectId = Schema.ObjectId;
 mongoose.Promise = global.Promise;
 require('mongoose-geojson-schema');
-mongoose.connect('mongodb://localhost/localqnaxm');
+
+if(conf.app.mongodb.user && conf.app.mongodb.password){
+    mongoose.connect('mongodb://'+ conf.app.mongodb.user + ':'+ conf.app.mongodb.password + '@' + 'localhost/localqnaxm');
+}
+else{
+    mongoose.connect('mongodb://localhost/localqnaxm');
+}
+
 
 //define tables
 
