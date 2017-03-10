@@ -33,15 +33,27 @@ var createComment = function(data,callback){
 
 
 var findCommentsByTopicId = function(topicId,callback){
-    DaoUtil.find(Comment,{topic : objectID.createFromHexString(topicId)},callback,{createDate : -1});
+    DaoUtil.find(Comment,{topic : objectID.createFromHexString(topicId),invalid : false},callback,{createDate : -1});
 };
 
 var upOrDownComment = function(commentId,inc,callback){
     DaoUtil.findByIdAndUpdate(Comment,objectID.createFromHexString(commentId),{$inc : inc},callback);
 };
 
+var findCommentById = function(commentIdStr,callback){
+    DaoUtil.findByIdOrIds(Comment,objectID.createFromHexString(commentIdStr),callback);
+};
+
+var deleteComment = function(commentId,callback){
+    DaoUtil.findByIdAndUpdate(Comment,commentId,{"invalid" : true},callback);
+};
+
+
+
 module.exports = {
     createComment : createComment,
     findCommentsByTopicId : findCommentsByTopicId,
-    upOrDownComment : upOrDownComment
+    upOrDownComment : upOrDownComment,
+    findCommentById : findCommentById,
+    deleteComment : deleteComment
 };

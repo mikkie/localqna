@@ -97,9 +97,27 @@ var parseContent = function (content, topic) {
 };
 
 
+var deleteComment = function(userId,commentIdStr,callback){
+    commentDao.findCommentById(commentIdStr,function(res){
+        if(!res.error){
+            if(res.owner.id.toString() == userId.toString()){
+                commentDao.deleteComment(res._id,callback);
+            }
+            else{
+                callback({"401" : "????????"});
+            }
+        }
+        else{
+            callback({"error" : "comment not exists"});
+        }
+    });
+};
+
+
 module.exports = {
     createComment: createComment,
     findCommentsByTopicId: findCommentsByTopicId,
     upOrDownComment: upOrDownComment,
-    parseContent: parseContent
+    parseContent: parseContent,
+    deleteComment : deleteComment
 };

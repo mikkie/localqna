@@ -76,4 +76,29 @@ router.get('/upOrDownComment',function (req, res, next) {
 });
 
 
+router.post('/deleteComment',function(req, res, next){
+    var params = {
+        sessionId : req.body.sessionId,
+        commentId : req.body.commentId
+    };
+    if(validate.requirePass(res,params)){
+        session.getUserSession(params.sessionId,function (user) {
+            if(user){
+                commentService.deleteComment(user._id,params.commentId,function(result){
+                    if(result["401"] || result.error){
+                        res.json(result);
+                    }
+                    else{
+                        res.json({"success" : result});
+                    }
+                });
+            }
+            else{
+                res.json({"error" : "user not exists, sessionId = " + params.sessionId});
+            }
+        });
+    }
+});
+
+
 module.exports = router;

@@ -103,7 +103,12 @@ router.post('/deleteTopic',function(req, res, next){
         session.getUserSession(params.sessionId,function (user) {
             if(user){
                 topicService.deleteTopic(user._id,params.topicId,function(result){
-
+                    if(result["401"] || result.error){
+                        res.json(result);
+                    }
+                    else{
+                        res.json({"success" : result});
+                    }
                 });
             }
             else{
