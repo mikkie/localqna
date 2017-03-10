@@ -74,7 +74,8 @@ var TopicSchema = new Schema({
     expireDate : { type: Date },
     hit : { type: Number, default : 0},
     fee : { type: Number, default : 0.0},
-    score : { type: Number, default : 0}
+    score : { type: Number, default : 0},
+    invalid : {type : Boolean, default : false}
 });
 
 //4.Comment
@@ -90,7 +91,8 @@ var CommentSchema = new Schema({
     createDate : { type: Date, default: Date.now },
     anonymous : { type: Boolean, default : false},
     up : { type: Number, default : 0},
-    down : { type: Number, default : 0}
+    down : { type: Number, default : 0},
+    invalid : {type : Boolean, default : false}
 });
 
 

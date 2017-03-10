@@ -87,10 +87,30 @@ router.get('/findTopicsByOwner',function(req, res, next){
 });
 
 
-router.get('/findTopicsOrderByExpireDate',function(req, res, next){
-    topicService.findTopicsOrderByExpireDate(function(docs){
+router.get('/findTopicsNoCommentsNotExpired',function(req, res, next){
+    topicService.findTopicsNoCommentsNotExpired(function(docs){
         res.json({"success" : docs});
     });
+});
+
+
+router.post('/deleteTopic',function(req, res, next){
+    var params = {
+        sessionId : req.body.sessionId,
+        topicId : req.body.topicId
+    };
+    if(validate.requirePass(res,params)){
+        session.getUserSession(params.sessionId,function (user) {
+            if(user){
+                topicService.deleteTopic(user._id,params.topicId,function(result){
+
+                });
+            }
+            else{
+                res.json({"error" : "user not exists, sessionId = " + params.sessionId});
+            }
+        });
+    }
 });
 
 

@@ -6,11 +6,11 @@ var mongoose = require('../util/mongodbUtil'),
 
 
 var findTopicsByCommunity = function(communityId,callback){
-    DaoUtil.find(Topic,{"community.id" : objectID.createFromHexString(communityId),"expireDate" : {$gt : new Date()}},callback,{createDate:-1});
+    DaoUtil.find(Topic,{"community.id" : objectID.createFromHexString(communityId),"expireDate" : {$gt : new Date()},"invalid" : false},callback,{createDate:-1});
 };
 
 var findTopicsByOwner = function(ownerId,callback){
-    DaoUtil.find(Topic,{"owner.id" : ownerId,"expireDate" : {$gt : new Date()}},callback,{createDate:-1});
+    DaoUtil.find(Topic,{"owner.id" : ownerId,"expireDate" : {$gt : new Date()},"invalid" : false},callback,{createDate:-1});
 };
 
 var createTopic = function(data,callback){
@@ -42,7 +42,7 @@ var findTopicsById = function(id,callback){
     else{
         condition = objectID.createFromHexString(id)
     }
-    DaoUtil.find(Topic,{_id : condition,"expireDate" : {$gt : new Date()}},callback,{createDate:-1});
+    DaoUtil.find(Topic,{_id : condition,"expireDate" : {$gt : new Date()},"invalid" : false},callback,{createDate:-1});
 };
 
 
@@ -51,9 +51,14 @@ var addComment = function(topicId,update,callback){
 };
 
 
-var findTopicsOrderByExpireDate = function(callback){
-    DaoUtil.findAll(Topic,callback,{expireDate:1});
+var findTopicsNoCommentsNotExpired = function(callback){
+    DaoUtil.find(Topic,{"comments" : {$size:0},"expireDate" : {$gt : new Date()},"invalid" : false},callback,{expireDate:1});
 };
+
+var deleteTopic = function(topicId,callback){
+    DaoUtil.findByIdAndUpdate(Topic,topicId,{"invalid" : true},callback);
+};
+
 
 module.exports = {
     createTopic : createTopic,
@@ -61,5 +66,6 @@ module.exports = {
     findTopicsByOwner : findTopicsByOwner,
     findTopicsById : findTopicsById,
     addComment : addComment,
-    findTopicsOrderByExpireDate : findTopicsOrderByExpireDate
+    findTopicsNoCommentsNotExpired : findTopicsNoCommentsNotExpired,
+    deleteTopic : deleteTopic
 };

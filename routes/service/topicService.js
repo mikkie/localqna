@@ -106,8 +106,25 @@ var addComment = function(comment,callback){
 };
 
 
-var findTopicsOrderByExpireDate = function(callback){
-    topicDao.findTopicsOrderByExpireDate(callback);
+var findTopicsNoCommentsNotExpired = function(callback){
+    topicDao.findTopicsNoCommentsNotExpired(callback);
+};
+
+
+var deleteTopic = function(userId,topicIdStr,callback){
+    topicDao.findTopicsById(topicIdStr,function(res){
+        if(!res.error){
+            if(res.owner.id.toString() == userId.toString()){
+                topicDao.deleteTopic(res._id,callback);
+            }
+            else{
+                callback({"401" : "无权限删除该话题"});
+            }
+        }
+        else{
+            callback({"error" : "topic not exists"});
+        }
+    });
 };
 
 
@@ -117,5 +134,6 @@ module.exports = {
     findTopicsByOwner : findTopicsByOwner,
     findTopicsById : findTopicsById,
     addComment : addComment,
-    findTopicsOrderByExpireDate : findTopicsOrderByExpireDate
+    findTopicsNoCommentsNotExpired : findTopicsNoCommentsNotExpired,
+    deleteTopic : deleteTopic
 };
