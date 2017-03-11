@@ -34,7 +34,7 @@ var UserSchema = new Schema({
        permission : {
            community : {type: String , default : 'r'},
            topic : {type: String , default : 'r'},
-           comment : {type: String , default : 'r'}
+           comment : {type: String , default : 'rw'}
        }
     },
     session : {
