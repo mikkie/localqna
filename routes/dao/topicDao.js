@@ -26,6 +26,8 @@ var createTopic = function(data,callback){
         name : data.communityName
     };
     topic.expireDate = data.expireDate;
+    topic.expireLength = data.expireLength;
+    topic.expireUnit = data.expireUnit;
     topic.anonymous = data.anonymous;
     DaoUtil.insert(topic,callback);
 };
