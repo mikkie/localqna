@@ -17,7 +17,9 @@ var createTopic = function(userInfo,content,sessionId,communityId,communityName,
                owner : user._id,
                communityId : communityId,
                communityName : communityName,
-               anonymous : anonymous
+               anonymous : anonymous,
+               expireLength : expireLength,
+               expireUnit : expireDateUnit
            };
            var multi = parseInt(expireLength);
            switch(expireDateUnit){

@@ -80,6 +80,8 @@ var TopicSchema = new Schema({
     anonymous : {type: Boolean, default : false},
     createDate : { type: Date, default: Date.now },
     expireDate : { type: Date },
+    expireLength : {type: String},
+    expireUnit : {type: String},
     hit : { type: Number, default : 0},
     fee : { type: Number, default : 0.0},
     score : { type: Number, default : 0},
