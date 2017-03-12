@@ -32,8 +32,8 @@ var UserSchema = new Schema({
     settings : {
        distance : { type: Number , default : 3 },
        permission : {
-           community : {type: String , default : 'r'},
-           topic : {type: String , default : 'r'},
+           community : {type: String , default : 'rw'},
+           topic : {type: String , default : 'rw'},
            comment : {type: String , default : 'rw'}
        }
     },
