@@ -23,11 +23,11 @@ var createTopic = function(userInfo,content,sessionId,communityId,communityName,
            };
            var multi = parseInt(expireLength);
            switch(expireDateUnit){
-               case 's' : multi = multi * 1000; break;
-               case 'm' : multi = multi * 1000 * 60; break;
-               case 'h' : multi = multi * 1000 * 3600; break;
-               case 'd' : multi = multi * 1000 * 3600 * 24; break;
-               default  : multi = multi * 1000 * 3600; break;
+               case 's' : multi = multi * 1000; data.expireUnit= '秒';break;
+               case 'm' : multi = multi * 1000 * 60; data.expireUnit= '分钟';break;
+               case 'h' : multi = multi * 1000 * 3600; data.expireUnit= '小时';break;
+               case 'd' : multi = multi * 1000 * 3600 * 24; data.expireUnit= '天';break;
+               default  : multi = multi * 1000 * 3600;break;
            }
            data.expireDate = new Date(new Date().getTime() + (multi));
            if(data.anonymous){
