@@ -1,5 +1,6 @@
 var commentDao = require('../dao/commentDao');
 var userDao = require('../dao/userDao');
+var topicDao = require('../dao/topicDao');
 var commonUtil = require('../util/commonUtil');
 
 var createComment = function (userInfo, content, user, topicId, to, anonymous, callback, errorHandler) {
@@ -13,20 +14,24 @@ var createComment = function (userInfo, content, user, topicId, to, anonymous, c
     };
     commentDao.createComment(data, function (comment) {
         if (!comment.error) {
-            if (user._id.toString() != comment.owner.id.toString()) {
-                var myReplies = user.myReplies;
-                var find = false;
-                for (var i = 0; i < myReplies.length; i++) {
-                    if (myReplies[i].toString() == comment.topic) {
-                        find = true;
-                        break;
+            topicDao.findTopicsById(topicId,function(res){
+                if(res instanceof  Array && res.length == 1){
+                    if (res[0].owner.id.toString() != comment.owner.id.toString()) {
+                        var myReplies = user.myReplies;
+                        var find = false;
+                        for (var i = 0; i < myReplies.length; i++) {
+                            if (myReplies[i].toString() == comment.topic) {
+                                find = true;
+                                break;
+                            }
+                        }
+                        if (!find) {
+                            userDao.addToMyReplies(user._id, comment.topic, function (res) {
+                            });
+                        }
                     }
                 }
-                if (!find) {
-                    userDao.addToMyReplies(user._id, comment.topic, function (res) {
-                    });
-                }
-            }
+            });
             callback(comment);
         }
         else {
