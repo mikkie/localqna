@@ -82,7 +82,9 @@ var createCommunity = function (name, loc, userId, callback, errHandler) {
     };
     communityDao.createCommunity(name, loc, avatar, function (community) {
         if (community) {
-            userDao.addToMyCommunities(userId, community._id, callback);
+            userDao.addToMyCommunities(userId, community._id, function(){
+                callback(community);
+            });
         }
         else {
             var msg = sessionId + ' failed to create community on ' + loc.join(',') + ' name=' + name;
