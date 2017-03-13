@@ -132,29 +132,20 @@ var deleteTopic = function(userId,topicIdStr,callback){
 var tagTopicReaded = function(user,topicIdStr,callback){
     topicDao.findTopicsById(topicIdStr,function(res){
         if(!res.error){
-            var tag = false;
             //my topic readed
             if(res[0].newComment != 0 && res[0].owner.id.toString() == user._id.toString()){
-                topicDao.tagTopicReaded(res[0]._id,callback);
-                tag = true;
+                topicDao.tagTopicReaded(res[0]._id,function(){});
             }
+            //my notification readed
             var notifications = user.notification;
             if(notifications && notifications.length > 0){
-                var find = false;
                 for(var i = 0; i < notifications.length; i++){
                     if(notifications[i].topic.toString() == topicIdStr){
                         userDao.deleteNotification(user._id,notifications[i].topic,function(){});
-                        find = true;
                     }
                 }
-                if(find && !tag){
-                    callback({"success" : "tag success"});
-                    tag = true;
-                }
             }
-            if(!tag){
-                callback({"401" : "无权限标记该话题已读"});
-            }
+            callback({"success" : "tag readed finished"});
         }
         else{
             callback({"error" : "topic not exists"});

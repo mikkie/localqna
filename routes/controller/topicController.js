@@ -138,12 +138,7 @@ router.post('/tagTopicReaded',function(req, res, next){
         session.getUserSession(params.sessionId,function (user) {
             if(user){
                 topicService.tagTopicReaded(user,params.topicId,function(result){
-                    if(result["401"] || result.error){
-                        res.json(result);
-                    }
-                    else{
-                        res.json({"success" : result});
-                    }
+                    res.json(result);
                 });
             }
             else{
