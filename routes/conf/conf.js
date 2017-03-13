@@ -16,7 +16,7 @@ var globalConf = {
         topic : {
             topicClosePeriod : 15 * 60 * 1000
         },
-        readMe : '1.使用@xxx评论时，本条评论对其他用户不可见。',
+        readMe : '1.点击用户头像@xxx评论时，本条评论对其他用户不可见。',
         about : '邻答是一个基于场景的迷你话题平台，用户可以随时随地接入自己需要的场景，发起和参与话题讨论，了解身边动态。',
         contact : {
             email : 'true2green@qq.com',
