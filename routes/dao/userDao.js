@@ -53,6 +53,10 @@ var updateSettings = function(sessionId,settings,callback){
     DaoUtil.update(User,{"session.id" : sessionId},{"settings" : settings},callback);
 };
 
+var deleteNotification = function(userId,topicId,callback){
+    DaoUtil.findByIdAndUpdate(User,userId,{$pull: {"notification": {topic : topicId}}},callback);
+};
+
 
 module.exports = {
     createUser : createUser,
@@ -65,5 +69,6 @@ module.exports = {
     removeStarTopics : removeStarTopics,
     addToMyReplies : addToMyReplies,
     addNotifications : addNotifications,
-    updateSettings : updateSettings
+    updateSettings : updateSettings,
+    deleteNotification : deleteNotification
 };

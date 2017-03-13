@@ -129,7 +129,6 @@ router.post('/deleteTopic',function(req, res, next){
     }
 });
 
-
 router.post('/tagTopicReaded',function(req, res, next){
     var params = {
         sessionId : req.body.sessionId,
@@ -138,7 +137,7 @@ router.post('/tagTopicReaded',function(req, res, next){
     if(validate.requirePass(res,params)){
         session.getUserSession(params.sessionId,function (user) {
             if(user){
-                topicService.tagTopicReaded(user._id,params.topicId,function(result){
+                topicService.tagTopicReaded(user,params.topicId,function(result){
                     if(result["401"] || result.error){
                         res.json(result);
                     }
@@ -153,6 +152,9 @@ router.post('/tagTopicReaded',function(req, res, next){
         });
     }
 });
+
+
+
 
 
 module.exports = router;
