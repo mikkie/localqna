@@ -129,6 +129,22 @@ var deleteTopic = function(userId,topicIdStr,callback){
     });
 };
 
+var tagTopicReaded = function(userId,topicIdStr,callback){
+    topicDao.findTopicsById(topicIdStr,function(res){
+        if(!res.error){
+            if(res[0].owner.id.toString() == userId.toString()){
+                topicDao.tagTopicReaded(res[0]._id,callback);
+            }
+            else{
+                callback({"401" : "无权限标记该话题已读"});
+            }
+        }
+        else{
+            callback({"error" : "topic not exists"});
+        }
+    });
+};
+
 
 module.exports = {
     createTopic : createTopic,
@@ -137,5 +153,6 @@ module.exports = {
     findTopicsById : findTopicsById,
     addComment : addComment,
     findTopicsNoCommentsNotExpired : findTopicsNoCommentsNotExpired,
-    deleteTopic : deleteTopic
+    deleteTopic : deleteTopic,
+    tagTopicReaded : tagTopicReaded
 };

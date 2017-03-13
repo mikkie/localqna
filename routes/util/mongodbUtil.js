@@ -72,6 +72,7 @@ var TopicSchema = new Schema({
        id : ObjectId,
        name : String
     },
+    newComment : {type: Number, default : 0},
     comments : [{
        commentId : ObjectId,
        userName : {type : String},

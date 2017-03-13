@@ -130,4 +130,29 @@ router.post('/deleteTopic',function(req, res, next){
 });
 
 
+router.post('/tagTopicReaded',function(req, res, next){
+    var params = {
+        sessionId : req.body.sessionId,
+        topicId : req.body.topicId
+    };
+    if(validate.requirePass(res,params)){
+        session.getUserSession(params.sessionId,function (user) {
+            if(user){
+                topicService.tagTopicReaded(user._id,params.topicId,function(result){
+                    if(result["401"] || result.error){
+                        res.json(result);
+                    }
+                    else{
+                        res.json({"success" : result});
+                    }
+                });
+            }
+            else{
+                res.json({"error" : "user not exists, sessionId = " + params.sessionId});
+            }
+        });
+    }
+});
+
+
 module.exports = router;

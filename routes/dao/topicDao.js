@@ -49,7 +49,9 @@ var findTopicsById = function(id,callback){
 
 
 var addComment = function(topicId,update,callback){
-    DaoUtil.findByIdAndUpdate(Topic,topicId,{$push : {"comments" : update}},callback);
+    DaoUtil.findByIdAndUpdate(Topic,topicId,{$push : {"comments" : update}},function(){
+        DaoUtil.findByIdAndUpdate(Topic,topicId,{$inc : {"newComment" : 1}},callback);
+    });
 };
 
 
@@ -61,6 +63,10 @@ var deleteTopic = function(topicId,callback){
     DaoUtil.findByIdAndUpdate(Topic,topicId,{"invalid" : true},callback);
 };
 
+var tagTopicReaded = function(topicId,callback){
+    DaoUtil.findByIdAndUpdate(Topic,topicId,{"newComment" : 0},callback);
+};
+
 
 module.exports = {
     createTopic : createTopic,
@@ -69,5 +75,6 @@ module.exports = {
     findTopicsById : findTopicsById,
     addComment : addComment,
     findTopicsNoCommentsNotExpired : findTopicsNoCommentsNotExpired,
-    deleteTopic : deleteTopic
+    deleteTopic : deleteTopic,
+    tagTopicReaded : tagTopicReaded
 };
