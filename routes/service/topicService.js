@@ -39,9 +39,9 @@ var createTopic = function(userInfo,content,sessionId,communityId,communityName,
                data.avatar = userInfo.avatarUrl;
            }
            topicDao.createTopic(data,function(topic){
-               userDao.addToStarTopics(user._id,topic._id.toString(),function(user){
+               //userDao.addToStarTopics(user._id,topic._id.toString(),function(user){
                    callback(topic);
-               });
+               //});
            });
        }
        else{
