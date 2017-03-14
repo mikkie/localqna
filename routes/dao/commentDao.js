@@ -33,7 +33,7 @@ var createComment = function(data,callback){
 
 
 var findCommentsByTopicId = function(topicId,callback){
-    DaoUtil.find(Comment,{topic : objectID.createFromHexString(topicId),invalid : false},callback,{createDate : -1});
+    DaoUtil.find(Comment,{topic : objectID.createFromHexString(topicId),invalid : false},callback,{createDate : 1});
 };
 
 var upOrDownComment = function(commentId,inc,callback){
