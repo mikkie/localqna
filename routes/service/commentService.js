@@ -27,6 +27,9 @@ var createComment = function (userInfo, content, user, topicId, to, anonymous, c
                             }
                         });
                     }
+                    else{
+                        callback(comment);
+                    }
                     if (res[0].owner.id.toString() != comment.owner.id.toString()) {
                         var myReplies = user.myReplies;
                         var find = false;
