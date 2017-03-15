@@ -16,6 +16,17 @@ var createComment = function (userInfo, content, user, topicId, to, anonymous, c
         if (!comment.error) {
             topicDao.findTopicsById(topicId,function(res){
                 if(res instanceof  Array && res.length == 1){
+                    var to = parseContent(data.content,res[0]);
+                    if(to && to.length > 0){
+                        commentDao.addTo(comment._id,to,function(result){
+                            if(result && !result.error){
+                                callback(result);
+                            }
+                            else{
+                                callback(comment);
+                            }
+                        });
+                    }
                     if (res[0].owner.id.toString() != comment.owner.id.toString()) {
                         var myReplies = user.myReplies;
                         var find = false;
@@ -31,8 +42,10 @@ var createComment = function (userInfo, content, user, topicId, to, anonymous, c
                         }
                     }
                 }
+                else{
+                    callback(comment);
+                }
             });
-            callback(comment);
         }
         else {
             errorHandler(comment.error);
@@ -98,7 +111,6 @@ var parseContent = function (content, topic) {
         }
     }
     return toIds;
-
 };
 
 

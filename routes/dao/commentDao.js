@@ -48,12 +48,15 @@ var deleteComment = function(commentId,callback){
     DaoUtil.findByIdAndUpdate(Comment,commentId,{"invalid" : true},callback);
 };
 
-
+var addTo = function(commentId,to,callback){
+    DaoUtil.findByIdAndUpdate(Comment,commentId,{to : to},callback);
+};
 
 module.exports = {
     createComment : createComment,
     findCommentsByTopicId : findCommentsByTopicId,
     upOrDownComment : upOrDownComment,
     findCommentById : findCommentById,
-    deleteComment : deleteComment
+    deleteComment : deleteComment,
+    addTo : addTo
 };
