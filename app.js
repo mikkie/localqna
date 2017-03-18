@@ -16,6 +16,7 @@ var topic = require('./routes/controller/topicController');
 var comment = require('./routes/controller/commentController');
 var user = require('./routes/controller/userController');
 var globalSetting = require('./routes/controller/globalSettingsController');
+var fileUpload = require('./routes/controller/fileUploadController');
 
 var globalSettingsService = require('./routes/service/globalSettingsService');
 
@@ -49,6 +50,7 @@ app.use('/topic',topic);
 app.use('/comment',comment);
 app.use('/user',user);
 app.use('/globalSetting',globalSetting);
+app.use('/fileUpload',fileUpload);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
