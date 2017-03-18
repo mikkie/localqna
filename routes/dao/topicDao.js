@@ -29,6 +29,7 @@ var createTopic = function(data,callback){
     topic.expireLength = data.expireLength;
     topic.expireUnit = data.expireUnit;
     topic.anonymous = data.anonymous;
+    topic.images = data.imageUrls;
     DaoUtil.insert(topic,callback);
 };
 

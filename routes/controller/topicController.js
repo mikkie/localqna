@@ -20,7 +20,7 @@ router.post('/createNewTopic',function (req, res, next) {
         expireDateUnit : req.body.expireDateUnit
     };
     if(validate.requirePass(res,params)){
-        topicService.createTopic(params.userInfo,params.content,params.sessionId,params.communityId,params.communityName,params.expireLength,params.expireDateUnit,req.body.anonymous,function (doc) {
+        topicService.createTopic(params.userInfo,params.content,params.sessionId,params.communityId,params.communityName,params.expireLength,params.expireDateUnit,req.body.anonymous,req.body.imageUrls,function (doc) {
             if(!doc.error && !doc["401"]){
                 res.json({"success" : doc});
             }

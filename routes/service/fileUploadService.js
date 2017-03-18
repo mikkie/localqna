@@ -1,6 +1,8 @@
 var conf = require('../conf/conf'),
+    hmac = require('../fileupload/hmac.js'),
+    sha1 = require('../fileupload/sha1.js'),
     Base64 = require("../fileupload/Base64"),
-    Crypto = require('../fileupload/crypto');
+    Crypto = require('../fileupload/crypto'),
     logger = require('../common/logger');
 
 var generateSignature = function(expire){
