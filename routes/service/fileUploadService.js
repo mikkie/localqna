@@ -1,6 +1,6 @@
 var conf = require('../conf/conf'),
-    utf8 = require('utf8'),
-    CryptoJS = require("crypto-js"),
+    Base64 = require("../fileupload/Base64"),
+    Crypto = require('../fileupload/crypto');
     logger = require('../common/logger');
 
 var generateSignature = function(expire){
@@ -14,9 +14,9 @@ var generateSignature = function(expire){
             ["content-length-range",1,10485760]
         ]
     };
-    var policyJSON = utf8.encode(JSON.stringify(policy));
-    var policyBase64 = new Buffer(policyJSON).toString('base64');
-    var postSignature = _calcSignature(policyJSON);
+    var policyJSON = JSON.stringify(policy);
+    var policyBase64 = Base64.encode(policyJSON);
+    var postSignature = _calcSignature(policyBase64);
     logger.info('policyJSON = ' + policyJSON + ',policyBase64 = ' + policyBase64 + ',postSignature = ' + postSignature);
     return {
         policyBase64 : policyBase64,
@@ -24,8 +24,11 @@ var generateSignature = function(expire){
     };
 };
 
-var _calcSignature = function(policyJSON){
-    return CryptoJS.HmacSHA1(policyJSON, conf.app.ali.key).toString();
+var _calcSignature = function(policyBase64){
+    const bytes = Crypto.HMAC(Crypto.SHA1, policyBase64, conf.app.ali.key, {
+        asBytes: true
+    });
+    return Crypto.util.bytesToBase64(bytes);
 };
 
 module.exports = {
