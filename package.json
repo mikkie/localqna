@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "pm2 start ./bin/www -i max",
-    "stop" : "pm2 stop all"
+    "stop": "pm2 stop all"
   },
   "dependencies": {
     "body-parser": "~1.16.0",

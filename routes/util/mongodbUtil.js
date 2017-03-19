@@ -63,6 +63,9 @@ var CommunitySchema = new Schema({
 //3.Topic
 var TopicSchema = new Schema({
     content : {type: String},
+    images : [
+        {type : String}
+    ],
     owner : {
        id : { type: ObjectId,index : true},
        name : {type : String},

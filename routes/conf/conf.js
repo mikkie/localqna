@@ -1,10 +1,19 @@
 var globalConf = {
     app : {
-        appId : 'wx244fbba8964a69b3',
-        appSecret : '0f5cbb94a134f9b847e90f3419b509a4',
+        appId : '',
+        appSecret : '',
         mongodb : {
             user : '',
             password : ''
+        },
+        ali:{
+            id : '',
+            key : '',
+            bucket : '',
+            endPoint : '',
+            dir : '',
+            callbackUrl : '',
+            expire : 30 * 60 * 1000
         }
     },
     logger : {
