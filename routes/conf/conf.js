@@ -5,6 +5,15 @@ var globalConf = {
         mongodb : {
             user : '',
             password : ''
+        },
+        ali:{
+            id : '6J9KIFCDZHvqXm4Y',
+            key : 'REPiExytXvn5zhlmetveiRXhwaq6Zn',
+            bucket : 'yamixed',
+            endPoint : 'oss-cn-shenzhen.aliyuncs.com',
+            dir : 'localqnaxm',
+            callbackUrl : '',
+            expire : 30 * 60 * 1000
         }
     },
     logger : {
