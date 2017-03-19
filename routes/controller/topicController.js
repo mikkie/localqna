@@ -72,7 +72,7 @@ router.get('/getTopicById',function(req, res, next){
                 });
             }
             else{
-                res.json({"error" : "user not exists: " + params.sessionId});
+                res.json({"401" : "user not exists: " + params.sessionId});
             }
         });
     }
