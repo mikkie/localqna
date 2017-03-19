@@ -7,6 +7,10 @@ var validate = {
        var missing = [];
        for(var k in obj){
            if(common.string.isEmpty(obj[k])){
+               if(k == 'sessionId'){
+                   res.json({"401" : "missing sessionId"});
+                   return false;
+               }
                missing.push(k);
            }
        }
