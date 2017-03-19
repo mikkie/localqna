@@ -24,7 +24,7 @@ var createTopic = function(userInfo,content,sessionId,communityId,communityName,
            };
            if(imageUrls && imageUrls.length > 0){
               for(var i in imageUrls){
-                  imageUrls[i] = 'http://' + conf.app.ali.bucket + '.' + conf.app.ali.endPoint + '/' + conf.app.ali.dir + '/' + imageUrls[i];
+                  imageUrls[i] = 'http://' + conf.app.ali.endPoint + '/' + conf.app.ali.dir + '/' + imageUrls[i];
               }
            }
            var multi = parseInt(expireLength);
