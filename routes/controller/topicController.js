@@ -12,7 +12,6 @@ var mongo = require('mongodb'),
 router.post('/createNewTopic',function (req, res, next) {
     var params = {
         userInfo : req.body.userInfo,
-        content : req.body.content,
         sessionId : req.body.sessionId,
         communityId : req.body.communityId,
         communityName : req.body.communityName,
@@ -20,7 +19,7 @@ router.post('/createNewTopic',function (req, res, next) {
         expireDateUnit : req.body.expireDateUnit
     };
     if(validate.requirePass(res,params)){
-        topicService.createTopic(params.userInfo,params.content,params.sessionId,params.communityId,params.communityName,params.expireLength,params.expireDateUnit,req.body.anonymous,req.body.imageUrls,function (doc) {
+        topicService.createTopic(params.userInfo,req.body.content,params.sessionId,params.communityId,params.communityName,params.expireLength,params.expireDateUnit,req.body.anonymous,req.body.imageUrls,function (doc) {
             if(!doc.error && !doc["401"]){
                 res.json({"success" : doc});
             }
