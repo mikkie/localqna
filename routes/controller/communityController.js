@@ -78,7 +78,12 @@ router.post('/createNewCommunity',function (req, res, next) {
                     return;
                 }
                 communityService.createCommunity(params.name,params.location,user._id,function (doc) {
-                    res.json({"success" : doc});
+                    if(doc.warn){
+                        res.json(doc);
+                    }
+                    else{
+                        res.json({"success" : doc});
+                    }
                 },function(err){
                     logger.error('create community error : ' + err);
                     res.json({"error" : err});
