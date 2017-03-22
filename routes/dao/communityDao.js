@@ -28,8 +28,8 @@ var createCommunity = function (name,loc,avatar,callback) {
 };
 
 
-var findCommunitiesById = function(id,callback){
-    DaoUtil.findByIdOrIds(Community,id,callback,{createDate:-1});
+var findCommunitiesByIds = function(ids,callback){
+    DaoUtil.find(Community,{_id : {$in : ids},invalid : false},callback,{createDate:-1});
 };
 
 module.exports = {
@@ -37,5 +37,5 @@ module.exports = {
     findCommunitiesBySystemRecommend : findCommunitiesBySystemRecommend,
     findCommunitiesByName : findCommunitiesByName,
     createCommunity : createCommunity,
-    findCommunitiesById : findCommunitiesById
+    findCommunitiesByIds : findCommunitiesByIds
 };

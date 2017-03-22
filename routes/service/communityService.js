@@ -95,7 +95,7 @@ var createCommunity = function (name, loc, userId, callback, errHandler) {
 };
 
 var findStarCommunities = function (ids, callback) {
-    communityDao.findCommunitiesById(ids, callback);
+    communityDao.findCommunitiesByIds(ids, callback);
 };
 
 module.exports = {
