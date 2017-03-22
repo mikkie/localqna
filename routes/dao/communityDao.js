@@ -16,6 +16,10 @@ var findCommunitiesByName = function (name,callback) {
     DaoUtil.find(Community,{name : new RegExp(name),invalid : false},callback);
 };
 
+var findCommunitiesByNameExactly = function (name,callback) {
+    DaoUtil.find(Community,{name : name,invalid : false},callback);
+};
+
 var createCommunity = function (name,loc,avatar,callback) {
     var community = new Community();
     community.name = name;
@@ -36,6 +40,7 @@ module.exports = {
     findCommunitiesByDistance : findCommunitiesByDistance,
     findCommunitiesBySystemRecommend : findCommunitiesBySystemRecommend,
     findCommunitiesByName : findCommunitiesByName,
+    findCommunitiesByNameExactly : findCommunitiesByNameExactly,
     createCommunity : createCommunity,
     findCommunitiesByIds : findCommunitiesByIds
 };

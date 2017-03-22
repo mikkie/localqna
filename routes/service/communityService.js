@@ -80,16 +80,23 @@ var createCommunity = function (name, loc, userId, callback, errHandler) {
         color: common.color.randomColor(''),
         character: name.substring(0, 1)
     };
-    communityDao.createCommunity(name, loc, avatar, function (community) {
-        if (community) {
-            userDao.addToMyCommunities(userId, community._id, function(){
-                callback(community);
-            });
+    communityDao.findCommunitiesByNameExactly(name,function(res){
+        if(res instanceof  Array && res.length > 0){
+            callback({"warn" : "社区已存在"});
         }
-        else {
-            var msg = sessionId + ' failed to create community on ' + loc.join(',') + ' name=' + name;
-            logger.error(msg);
-            errHandler(msg);
+        else{
+            communityDao.createCommunity(name, loc, avatar, function (community) {
+                if (community) {
+                    userDao.addToMyCommunities(userId, community._id, function(){
+                        callback(community);
+                    });
+                }
+                else {
+                    var msg = sessionId + ' failed to create community on ' + loc.join(',') + ' name=' + name;
+                    logger.error(msg);
+                    errHandler(msg);
+                }
+            });
         }
     });
 };
