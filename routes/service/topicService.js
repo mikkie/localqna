@@ -8,7 +8,7 @@ var commonUtil = require('../util/commonUtil');
 var createTopic = function(userInfo,content,sessionId,communityId,communityName,expireLength,expireDateUnit,anonymous,imageUrls,callback){
     session.getUserSession(sessionId,function (user) {
        if(user){
-           if(user.settings.permission && user.settings.permission.community != 'rw'){
+           if(user.settings.permission && user.settings.permission.topic != 'rw'){
                callback({"401" : "您暂无权限创建话题，请联系管理员Tel:" + conf.settings.contact.tel});
                return;
            }

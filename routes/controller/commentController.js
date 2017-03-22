@@ -19,7 +19,7 @@ router.post('/createNewComment',function (req, res, next) {
     if(validate.requirePass(res,params)){
         session.getUserSession(params.sessionId,function (user) {
             if(user){
-                if(user.settings.permission && user.settings.permission.community != 'rw'){
+                if(user.settings.permission && user.settings.permission.comment != 'rw'){
                     res.json({"401" : "您暂无权限评论话题，请联系管理员Tel:" + conf.settings.contact.tel});
                     return;
                 }
