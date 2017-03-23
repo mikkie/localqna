@@ -65,8 +65,8 @@ var findCommentsByTopicId = function (topicId,userId,callback) {
                 var to = comments[i].to;
                 if((comments[i].owner.id.toString() != userId.toString()) && to && to.length > 0){
                     var find = false;
-                    for(var i in to){
-                        if(to[i].toString() == userId.toString()){
+                    for(var j in to){
+                        if(to[j].toString() == userId.toString()){
                             find = true;
                             break;
                         }
