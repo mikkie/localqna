@@ -170,11 +170,13 @@ router.post('/login', function (req, res, next) {
 //!!this api is for internal use only
 router.post('/createUser', function (req, res, next) {
     var params = {
-        openId: req.body.openId
+        name : req.body.name,
+        avatar : req.body.avatar,
+        sessionId : req.body.sessionId
     };
     if (validate.requirePass(res, params)) {
-        userService.login(params.openId, function (sessionId) {
-            res.json({"success": sessionId});
+        userService.createRobot(params.name,params.avatar,params.sessionId,function (user) {
+            res.json({"success": user.session.id});
         });
     }
 });

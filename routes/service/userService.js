@@ -21,6 +21,10 @@ var login = function(wxopenid,callback){
     });
 };
 
+var createRobot = function(name,avatar,sessionId,callback){
+    userDao.createRobot(name,avatar,sessionId,callback);
+};
+
 
 var getUserId = function(sessionId,session,callback){
     if(session[sessionId]){
@@ -150,5 +154,6 @@ module.exports = {
     toggleStarCommunity : toggleStarCommunity,
     toggleStarTopic : toggleStarTopic,
     notifyComment : notifyComment,
-    updateSettings : updateSettings
+    updateSettings : updateSettings,
+    createRobot : createRobot
 };

@@ -11,6 +11,17 @@ var createUser = function(wxopenid,callback){
     DaoUtil.insert(user,callback);
 };
 
+var createRobot = function(name,avatar,sessionId,callback){
+    var user = new User();
+    user.wxopenid = sessionId;
+    user.session = {
+        id : sessionId,
+        value : {},
+        expire : new Date(new Date().getTime() + 3600 * 1000 * 24 * 365)
+    };
+    DaoUtil.insert(user,callback);
+};
+
 var findUserById = function(userId,callback){
     DaoUtil.findOne(User,{_id : objectID.createFromHexString(userId)},callback);
 };
@@ -70,5 +81,6 @@ module.exports = {
     addToMyReplies : addToMyReplies,
     addNotifications : addNotifications,
     updateSettings : updateSettings,
-    deleteNotification : deleteNotification
+    deleteNotification : deleteNotification,
+    createRobot : createRobot
 };
