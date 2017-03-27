@@ -60,7 +60,7 @@ router.get('/getTopicById',function(req, res, next){
             if(user){
                 topicService.findTopicsById(params.topicId,function(result){
                     if(!result || result.error){
-                        res.json({"error" : result.error});
+                        res.json({"error" : result == null ? "?????" : result.error});
                     }
                     else{
                         if(user._id.toString() == result[0].owner.id.toString()){
