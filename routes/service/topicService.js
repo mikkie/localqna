@@ -159,6 +159,10 @@ var tagTopicReaded = function(user,topicIdStr,callback){
     });
 };
 
+var removeComment = function(topicId,commentId,callback){
+    topicDao.removeComment(topicId,commentId,callback);
+};
+
 
 module.exports = {
     createTopic : createTopic,
@@ -168,5 +172,6 @@ module.exports = {
     addComment : addComment,
     findTopicsNoCommentsNotExpired : findTopicsNoCommentsNotExpired,
     deleteTopic : deleteTopic,
-    tagTopicReaded : tagTopicReaded
+    tagTopicReaded : tagTopicReaded,
+    removeComment : removeComment
 };

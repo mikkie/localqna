@@ -68,6 +68,10 @@ var tagTopicReaded = function(topicId,callback){
     DaoUtil.findByIdAndUpdate(Topic,topicId,{"newComment" : 0},callback);
 };
 
+var removeComment = function(topicId,commentId,callback){
+    DaoUtil.findByIdAndUpdate(Topic,objectID.createFromHexString(topicId),{$pull: {"comments": {commentId : objectID.createFromHexString(commentId)}}},callback);
+};
+
 
 module.exports = {
     createTopic : createTopic,
@@ -77,5 +81,6 @@ module.exports = {
     addComment : addComment,
     findTopicsNoCommentsNotExpired : findTopicsNoCommentsNotExpired,
     deleteTopic : deleteTopic,
-    tagTopicReaded : tagTopicReaded
+    tagTopicReaded : tagTopicReaded,
+    removeComment : removeComment
 };

@@ -86,7 +86,8 @@ router.get('/upOrDownComment',function (req, res, next) {
 router.post('/deleteComment',function(req, res, next){
     var params = {
         sessionId : req.body.sessionId,
-        commentId : req.body.commentId
+        commentId : req.body.commentId,
+        topicId : req.body.topicId
     };
     if(validate.requirePass(res,params)){
         session.getUserSession(params.sessionId,function (user) {
@@ -97,6 +98,7 @@ router.post('/deleteComment',function(req, res, next){
                     }
                     else{
                         res.json({"success" : result});
+                        topicService.removeComment(params.topicId,params.commentId,function(){});
                     }
                 });
             }
