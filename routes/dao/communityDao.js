@@ -20,14 +20,18 @@ var findCommunitiesByNameExactly = function (name,callback) {
     DaoUtil.find(Community,{name : name,invalid : false},callback);
 };
 
-var createCommunity = function (name,loc,avatar,callback) {
+var createCommunity = function (userId,name,loc,avatar,permission,callback) {
     var community = new Community();
+    community.owner = userId;
     community.name = name;
     community.loc = {
         type: "Point",
         coordinates: loc
     };
     community.avatar = avatar;
+    if(permission){
+        community.permission = permission;
+    }
     DaoUtil.insert(community,callback);
 };
 
@@ -36,11 +40,16 @@ var findCommunitiesByIds = function(ids,callback){
     DaoUtil.find(Community,{_id : {$in : ids},invalid : false},callback,{createDate:-1});
 };
 
+var findCommunitiesById = function(id,callback){
+    DaoUtil.findByIdOrIds(Community,id,callback);
+};
+
 module.exports = {
     findCommunitiesByDistance : findCommunitiesByDistance,
     findCommunitiesBySystemRecommend : findCommunitiesBySystemRecommend,
     findCommunitiesByName : findCommunitiesByName,
     findCommunitiesByNameExactly : findCommunitiesByNameExactly,
     createCommunity : createCommunity,
-    findCommunitiesByIds : findCommunitiesByIds
+    findCommunitiesByIds : findCommunitiesByIds,
+    findCommunitiesById : findCommunitiesById
 };

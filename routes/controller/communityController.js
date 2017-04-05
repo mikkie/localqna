@@ -62,7 +62,7 @@ router.post('/createNewCommunity',function (req, res, next) {
     var params = {
         name : req.body.name,
         location : req.body.location,
-        sessionId : req.body.sessionId
+        sessionId : req.body.sessionId,
     };
     if(validate.requirePass(res,params)){
         if(!(params.location instanceof Array) || params.location.length != 2 || isNaN(params.location[0]) || isNaN(params.location[1])){
@@ -77,7 +77,7 @@ router.post('/createNewCommunity',function (req, res, next) {
                     res.json({"401" : '您暂无权限创建社区，请联系管理员Tel:' + conf.settings.contact.tel});
                     return;
                 }
-                communityService.createCommunity(params.name,params.location,user._id,function (doc) {
+                communityService.createCommunity(params.name,params.location,user._id,req.body.permission,function (doc) {
                     if(doc.warn){
                         res.json(doc);
                     }
@@ -95,6 +95,36 @@ router.post('/createNewCommunity',function (req, res, next) {
         });
     }
 });
+
+router.post('/isCommunityOwnByUser',function (req, res, next) {
+    var params = {
+        communityId : req.body.communityId,
+        sessionId : req.body.sessionId
+    };
+    if(validate.requirePass(res,params)){
+        session.getUserSession(params.sessionId,function (user) {
+            if(user){
+                communityService.findCommunitiesById(params.communityId,function(result){
+                     if(!result || result.error || result.length == 0){
+                         res.json({"error" : "community not exists: " + params.communityId});
+                     }
+                     else{
+                        var community = result[0];
+                        var isOwner = false;
+                        if(community.owner){
+                            isOwner = community.owner.toString() == user._id.toString();
+                        }
+                        res.json({"success" : isOwner});
+                     }
+                });
+            }
+            else{
+                res.json({"error" : "user not exists: " + params.sessionId});
+            }
+        });
+    }
+});
+
 
 
 var loadIndexPageCommunities = function(loc,distance,starCommunities,res){

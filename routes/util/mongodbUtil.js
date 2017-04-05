@@ -56,6 +56,9 @@ var CommunitySchema = new Schema({
     avatar : {
         color : { type: String },
         character : { type: String }
+    },
+    permission : {
+        public : {type : String, default : 'rw'}
     }
 });
 

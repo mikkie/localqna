@@ -75,7 +75,7 @@ var findCommunitiesByName = function (name, starCommunities, callback) {
 };
 
 
-var createCommunity = function (name, loc, userId, callback, errHandler) {
+var createCommunity = function (name, loc, userId, permission, callback, errHandler) {
     var avatar = {
         color: common.color.randomColor(''),
         character: name.substring(0, 1)
@@ -85,7 +85,7 @@ var createCommunity = function (name, loc, userId, callback, errHandler) {
             callback({"warn" : "社区已存在"});
         }
         else{
-            communityDao.createCommunity(name, loc, avatar, function (community) {
+            communityDao.createCommunity(userId,name, loc, avatar, permission,function (community) {
                 if (community) {
                     userDao.addToMyCommunities(userId, community._id, function(){
                         callback(community);
@@ -105,9 +105,15 @@ var findStarCommunities = function (ids, callback) {
     communityDao.findCommunitiesByIds(ids, callback);
 };
 
+
+var findCommunitiesById = function(id, callback){
+    communityDao.findCommunitiesById(id, callback);
+};
+
 module.exports = {
     findTheNearByAndRecommendCommunities: findTheNearByAndRecommendCommunities,
     findCommunitiesByName: findCommunitiesByName,
     createCommunity: createCommunity,
-    findStarCommunities: findStarCommunities
+    findStarCommunities: findStarCommunities,
+    findCommunitiesById : findCommunitiesById
 };
