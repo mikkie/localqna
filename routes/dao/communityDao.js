@@ -13,7 +13,7 @@ var findCommunitiesBySystemRecommend = function(callback){
 };
 
 var findCommunitiesByName = function (name,callback) {
-    DaoUtil.find(Community,{name : new RegExp(name),invalid : false},callback);
+    DaoUtil.find(Community,{name : new RegExp(name,'i'),invalid : false},callback);
 };
 
 var findCommunitiesByNameExactly = function (name,callback) {
